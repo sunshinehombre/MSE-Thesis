@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# tex.script written by Jeffry Lew, jklew@princeton.edu
+#
+# Depending on the option selected, this script either
+#     - compiles the .tex file with references or
+#     - removes *.aux, *.bbl, *.blg, *.lof, *.log, *.lot,
+#           *.out, and *.toc generated during compilation.
+#       This script also removes emacs backup files (*~).
+#
+# Required files for compilation:
+# 	- *.bib
+# 	- *.cls
+#       - *.prj
+# 	- *.tex
+#
+# This script must be placed in the same directory as the above files.
+#
+# Execute with
+#      ./tex.script compile
+# or
+#      ./tex.script clean
+#
+# to compile and clean files respectively.
+
+
+# Change filename to that of your *.tex file
+filename="thesis"
+tex=".tex"
+aux=".aux"
+
+if [ "$1" == "compile" ]
+then
+    
+    # Initial compilation of .tex file
+    # Generates *.aux, *.lof, *.log, *.lot, *.out, *.pdf, and *.toc files
+    pdflatex $filename$tex
+
+    # Compile .aux file
+    # Creates *.bbl and *.blg files
+    bibtex $filename$aux
+
+    # Recompile .tex file
+    # Updates *.aux, *.lof, *.log, *.lot, *.out, *.pdf, and *.toc files
+    pdflatex $filename$tex
+
+    # Compile one last time to include citations
+    # Updates *.aux, *.lof, *.log, *.lot, *.out, *.pdf, and *.toc files
+    pdflatex $filename$tex
+    
+elif [ "$1" == "clean" ]
+then
+    rm *.aux *.bbl *.blg *.lof *.log *.lot *.out *.toc *~
+else
+    echo "Error: Argument must be 'compile' or 'clean'."
+fi
