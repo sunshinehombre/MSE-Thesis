@@ -168,7 +168,14 @@
   }
   {\end{list}}
 
-
+  %% Commands for writing equations
+  \newcommand*\mc[1]{\mathcal{#1}}
+  \newcommand*\mean[1]{\overline{#1}}
+  \newcommand*\tf[1]{\widetilde{#1}}
+  \newcommand{\tff}[1]{\widetilde{\overline{#1}}}
+  \newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+  \newcommand{\sder}[2][]{\frac{\partial^{2}#1}{\partial#2^{2}}}
+  \newcommand{\tder}[1]{\pder[#1]{t} + \pder[u_j#1]{x_j}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Front-matter
