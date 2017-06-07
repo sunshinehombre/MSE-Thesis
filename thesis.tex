@@ -11,7 +11,7 @@
 %\newcommand{\printmode}{}
 
 %%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links. 
-\documentclass[12pt,lot, lof]{puthesis}
+\documentclass[12pt,lot,lof]{puthesis} % 06/06/2017 jklew: MAKE SURE TO UNCOMMENT FOR FINAL VERSION
 \newcommand{\proquestmode}{}
 % I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read. 
 
@@ -138,6 +138,14 @@
 % For example, highlight notes for future edits to the thesis
 %\newcommand{\todo}[1]{\textbf{\emph{TODO:}#1}}
 
+  %% Commands for writing equations
+  \newcommand*\mc[1]{\mathcal{#1}}
+  \newcommand*\mean[1]{\overline{#1}}
+  \newcommand*\tf[1]{\widetilde{#1}}
+  \newcommand{\tff}[1]{\widetilde{\overline{#1}}}
+  \newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+  \newcommand{\sder}[2][]{\frac{\partial^{2}#1}{\partial#2^{2}}}
+  \newcommand{\tder}[1]{\pder[#1]{t} + \pder[u_j#1]{x_j}}
 
 % create an environment that will indent text
 % see: http://latex.computersci.org/Reference/ListEnvironments
@@ -168,20 +176,11 @@
   }
   {\end{list}}
 
-  %% Commands for writing equations
-  \newcommand*\mc[1]{\mathcal{#1}}
-  \newcommand*\mean[1]{\overline{#1}}
-  \newcommand*\tf[1]{\widetilde{#1}}
-  \newcommand{\tff}[1]{\widetilde{\overline{#1}}}
-  \newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
-  \newcommand{\sder}[2][]{\frac{\partial^{2}#1}{\partial#2^{2}}}
-  \newcommand{\tder}[1]{\pder[#1]{t} + \pder[u_j#1]{x_j}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Front-matter
 
 % For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
-\ifodd 0
+\ifodd 0 % 06/06/2017 jklew: DEFAULT IS 0
 % front-matter disabled while writing chapters
 \renewcommand{\maketitlepage}{}
 \renewcommand*{\makecopyrightpage}{}
@@ -233,19 +232,20 @@
 
 
 % If you've disabled frontmatter, you can insert the toc manually
-%\tableofcontents\clearpage
+%\tableofcontents\clearpage % 06/06/2017 jklew: DEFAULT IS COMMENTED OUT
 
 % \include lets us split up the document (and each include starts a new page):
 \include{ch-intro/chapter-intro}
-%\include{ch-pastwork/chapter-pastwork}
-%\include{ch-usage/chapter-usage}
+\include{ch-lesmodels/chapter-lesmodels}
 \include{ch-subfiltermodeling/chapter-subfiltermodeling}
-%\include{ch-transport/chapter-transport}
+\include{ch-transport/chapter-transport}
+\include{ch-lesresults/chapter-lesresults}
 \include{ch-conclusion/chapter-conclusion}
 \appendix % all chapters following will be labeled as appendices
 \include{ch-appendicies/implementation}
 \include{ch-appendicies/printing}
-
+%\include{ch-pastwork/chapter-pastwork}
+%\include{ch-usage/chapter-usage}
 
 % Make the bibliography single spaced
 \singlespacing
