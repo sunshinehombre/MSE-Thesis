@@ -7,14 +7,42 @@ Contains information about modeling soot in LES.
 \subsection{Modeling the Particle Size Distribution}
 \label{sec:lesmodels:soot:ndf}
 
-The distribution of soot particle sizes in a system can be described by the Number Density Function (NDF). Previous studies have suggested that the soot NDF is bimodal, accounting for newly formed 'primary' particles from nucleation and larger aggregrates from various growth modes~\cite{zhao2003,zhao2005,netzell2007}. Incipient particles are roughly spherical with diameters on the order of tens of nanometers, while aggregates comprised of monodisperse primaries have fractal geometries with length scales on the order of hundreds of nanometers~\cite{vanderwal1999}. In order to account for the geometrical complexities, the NDF requires a multivariate parameterization such as volume and surface area~\cite{FILL IN}, volume and the number of primary particles~\cite{FILL IN}, or even volume, surface area, and the number of surface hydrogenated carbon sites~\cite{FILL IN}. In this work, the volume and surface area are used to provide a bivariate description of the NDF. 
+The distribution of soot particle sizes in a system can be described by the Number Density Function (NDF), $N$. Previous studies have suggested that the soot NDF is bimodal, accounting for newly formed 'primary' particles from nucleation and larger aggregrates from various growth modes~\cite{zhao2003,zhao2005,netzell2007}. Incipient particles are roughly spherical with diameters on the order of tens of nanometers, while aggregates comprised of monodisperse primaries have fractal geometries with length scales on the order of hundreds of nanometers~\cite{vanderwal1999}. In order to account for the geometrical complexities, the NDF requires a multivariate parameterization such as mass or volume and surface area~\cite{patterson2007,mueller2009,hmom2009}, the number of agglomerates and primary particles~\cite{park2004}, or even volume, surface area, and the number of surface hydrogenated carbon sites~\cite{blanquart2009}. In this work, a bivariate parameterization (volume $V$ and surface area $S$) of the NDF is used to give the functional form $N = N(V, S; t, x_j)$. Note that the NDF cannot be solved for directly due to its high dimensionality (six degrees of freedom), and so statistical models are required. \textbf{INCLUDE DISCUSSION ON MONTE CARLO, SECTIONAL METHODS, etc. HERE} For application to LES, the Method of Moments is one of the only tractable techniques due to its lower computational expense. In this approach, mean quantities of the NDF are solved for and complete information about the distribution is lost. These quantities are moments given by
+\begin{equation}\label{eq:lesmodels:soot:ndf:moments}
+  M_{x,y} = \sum\limits_{i=0}^\infty V_i^x S_i^y N_i,
+\end{equation}
+where discrete summation over $i$ implies summation over all particles sizes and $N_i$ is the number density of particles with volume $V_i$ and surface area $S_i$. The subscripts $x$ and $y$ indicate the order of the moment in volume and surface area, respectively.
 
 The NDF evolves according to the Population Balance Equation (PBE)~\cite{friedlander2000}
 \begin{equation}\label{eq:lesmodels:soot:ndf:pbe}
-  \tder{N_i} - \pder[]{x_j}\left( 0.55\frac{\nu}{T}\pder[T]{x_j}N_i \right) = \dot{N_i}
+  \tder{N_i} - \pder[]{x_j}\left( 0.55\frac{\nu}{T}\pder[T]{x_j}N_i \right) = \dot{N_i},
 \end{equation}
-where the third term is the thermophoresis of particles~\cite{waldmann1966} and the source term on the right hand side incorporates the various physical and chemical processes that govern soot evolution. Note that molecular diffusion has been neglected, as a soot particle with a diameter of 10 nm has a Schmidt number of 287 at standard atmospheric conditions~\cite{friedlander2000}. The corresponding molecular diffusion coefficient is $D = 5.24\times 10^{-4}$ cm$^2$/sec, so the diffusion velocity of soot is minimal as a result.
+where the third term is the thermophoresis of particles~\cite{waldmann1966} and the source term on the right-hand side incorporates the various physical and chemical processes that govern soot evolution. Note that molecular diffusion has been neglected, as a soot particle with a diameter of 10 nm has a Schmidt number of 287 at standard atmospheric conditions~\cite{friedlander2000}. This corresponds to a molecular diffusion coefficient of $D = 5.24\times 10^{-4}$ cm$^2$/sec, so the diffusion velocity of soot is minimal as a result. For LES, tracking the evolution of the moments is more relevant. A transport equation is derived by taking moments of Equation~\ref{eq:lesmodels:soot:ndf:moments},
+\begin{equation}\label{eq:lesmodels:soot:ndf:momtransport}
+  \tder{M_{x,y}} - \pder[]{x_j}\left( 0.55\frac{\nu}{T}\pder[T]{x_j}M_{x,y} \right) = \dot{M}_{x,y}.
+\end{equation}
+For convenience, a total velocity is defined that combines the convective and thermophoretic terms
+\begin{equation}\label{eq:lesmodels:soot:ndf:totvel}
+  u_j^* = u_j - 0.55\frac{\nu}{T}\pder[T]{x_j}.
+\end{equation}
 
+Although the Method of Moments has a relatively smaller computational cost, it faces the problem of closure. Evaluation of the source term $\dot{M}_{x,y}$ in Equation~\ref{eq:lesmodels:soot:ndf:momtransport} depends on moments that are not directly solved for, requiring further modeling. Two moment methods that provide closure are the Method of Moments with Interpolative Closure (MOMIC) and the Direct Quadrature Method of Moments (DQMOM).
+
+In MOMIC~\cite{frenklach2002,frenklach1987,frenklach1994}, transport equations are solved for a set of moments. Source term closure is then achieved by polynomial interpolation of the logarithm of these known moments. For a bivariate parameterization of the NDF with volume and surface area, the interpolation is given by
+\begin{equation}\label{eq:lesmodels:soot:ndf:momic}
+  M_{x,y}^{\text{MOMIC}} = \exp\left( \sum\limits_{r=0}^{R} \sum\limits_{k=0}^{r} a_{r,k}x^k y^{r-k} \right),
+\end{equation}
+where $R$ is the order of the polynomial interpolation. The constant coefficients $a_{r,k}$ are determined by taking the logarithm of Equation~\ref{eq:lesmodels:soot:ndf:momic} and solving the resulting linear system with the known moments. This system is well-conditioned, although as the order $R$ is increased, the number of additional moment transport equations increases.
+
+In DQMOM~\cite{marchisio2005}, the NDF is thought of as a summation of multi-dimensional Dirac delta functions, where the moments are approximated by Gauss quadrature. Transport equations are solved for the weights and locations of these delta functions, rather than for the moments of the NDF. The moments of the NDF are given by
+\begin{equation}\label{eq:lesmodels:soot:ndf:dqmom}
+  M_{x,y}^{\text{DQMOM}} = \sum\limits_{i=1}^{P} N_i V_i^x S_i^y,
+\end{equation}
+where $P$ is the total number of delta functions used in the quadrature approximation, $N_i$ are the weights of the delta functions, and $V_i$ and $S_i$ are the abscissas (locations) of the delta functions. Closure of the source terms of the transport equations for the weights and abscissas is achieved by using the source terms of a specified independent set of moments. However, depending on the shape of the NDF at any point and the selected set of moments, the procedure of closure can involve inverting an ill-conditioned linear system.
+
+\textbf{TALK ABOUT BIMODALITY AND ADVANTAGES/DISADVANTAGES OF MOMIC AND DQMOM. STATE HMOM SEEKS TO TAKE THE STRENGTHS OF BOTH. MAKE SURE TO GIT COMMIT AFTER THIS PART IS DONE.}
+
+In this work, the Hybrid Method of Moments will be used.
 
 \subsection{Hybrid Method of Moments}
 \label{sec:lesmodels:soot:hmom}

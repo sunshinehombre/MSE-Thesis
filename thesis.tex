@@ -62,6 +62,9 @@
 
 %\usepackage{amsfonts}
 
+% To allow for text in math mode
+\usepackage{amsmath}    
+
 %%% For figures
 \usepackage{graphicx}
 %\usepackage{subfig,rotate}
@@ -82,7 +85,8 @@
 % default caption width is 4in for longtable, but wider for normal tables
 \setlength{\LTcapwidth}{\textwidth}
 
-
+% So citations are in numerical order and grouped together if possible (i.e., 3-5 instead of 3,4,5)
+\usepackage{cite}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
