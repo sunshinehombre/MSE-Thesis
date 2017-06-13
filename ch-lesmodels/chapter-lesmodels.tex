@@ -1,6 +1,10 @@
 \chapter{Modeling Framework for Large Eddy Simulation\label{ch:lesmodels}}
 
-Summary: This chapter lays the foundation for modeling soot evolution in LES. Models for soot, turbulent combustion, the presumed PDF approach, and PAH are discussed.
+This chapter lays the foundation for modeling the evolution of soot in large eddy simulation (LES) of turbulent nonpremixed combustion. In LES of turbulent, nonreacting flows, the large scale, geometry-dependent motions are resolved while small-scale, universal turbulent structures are modeled. Using LES is advantageous because it captures unsteady flow features like swirl and recirculation that are neglected by other methods such as Reynolds-Averaged Navier-Stokes (RANS) without being as computationally intensive as full-fidelity Direct Numerical Simulation (DNS). Its predictive capabilities can lead to highly optimized designs through rapid iteration. The potential of LES to innovate the next generation of environmentally-friendly automobile or aircraft engines is the main reason it has been selected as the underlying modeling architecture.
+
+Models for combustion are incorporated into this framework. In the flamelet approach~\cite{peters1984}, a three-dimensional turbulent flame is represented as an ensemble of locally one-dimensional laminar flamelets embedded in a turbulent flowfield. This method relies on the scale separation between 
+
+Models for soot, turbulent combustion, the presumed PDF approach, and PAH are discussed.
 
 \input{ch-lesmodels/soot}
 \input{ch-lesmodels/combustion}

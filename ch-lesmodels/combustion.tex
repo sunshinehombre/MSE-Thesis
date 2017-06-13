@@ -1,13 +1,37 @@
 \section{Turbulent Combustion}
 \label{sec:lesmodels:combust}
 
-Information about turbulent combustion model used in this work.
+In this section, effective strategies for incorporating combustion chemistry into LES are covered. The turbulent combustion model must be able to accurately predict the thermal and chemical structure of the nonpremixed flame as fuel is oxidized into products. For sooting flames, the model also needs to account for the formation and evolution of soot precursors in addition to the soot itself. A brute-force method would involve selecting a chemical mechanism that models the above phenomena and solving coupled transport equations for all the species within the mechanism. However, such an approach is impractical for realistic chemical mechanisms, where there may be thousands of species and tens of thousands of reactions~\cite{law2007}.
+
+A more computationally tractable method is the Flamelet/Progress Variable (FPV) approach for nonpremixed combustion~\cite{pierce2004}. In the FPV approach, the local thermochemical equation of state is described by the solutions of the steady flamelet equations~\cite{peters1984} and is parameterized by the mixture fraction $Z$ and reaction progress variable $C$
+\begin{equation}\label{eq:lesmodels:combust:fpv}
+  \xi_i = \mathcal{F}(Z,C),
+\end{equation}
+where $\xi_i$ encompasses the thermochemical variables (density, temperature, species mass fractions, species source terms, etc.) and $\mathcal{F}$ is the functional relationship obtained from the solutions to the steady flamelet equations. To reduce computational overhead, these solutions are often computed \textit{a priori} and are stored in a database that is accessed during LES. Overall, the mapping given by Equation~\ref{eq:lesmodels:combust:fpv} has reduced the set of transported scalar variables to $Z$ and $C$, thereby drastically decreasing the number of required transport equations.
+
+However, this technique is insufficient for sooting flames due to its inability to predict the effects of thermal radiation. Soot evolution is characterized by long time scales and a sensitivity to the thermochemical state. Radiative thermal losses occur on similar temporal scales and can significantly alter the local thermochemical state. Therefore, radiative losses must be included. The Radiation Flamelet/Progress Variable (RFPV) approach has extended the FPV approach to include these losses~\cite{ihme2008} and therefore will be the foundation for the turbulent combustion model in this work. The database of solutions to the steady flamelet equations is expanded to include solutions with radiative losses, and a heat loss parameter $H$ is now added to the local thermochemical equation of state:
+\begin{equation}\label{eq:lesmodels:combust:rfpv}
+  \xi_i = \mathcal{G}(Z, C, H),
+\end{equation}
+where $\mathcal{G}$ is the functional relationship obtained from the augmented flamelet database.
+
+For sooting flames, certain quantities such as the source terms in Equation~\ref{eq:lesmodels:soot:ndf:momtransport} are dependent on the soot scalars in addition to the thermochemical quantities. Therefore, a more general equation of state is formulated as
+\begin{equation}\label{eq:lesmodels:combust:jointeos}
+  \phi = \mathcal{J}(\xi_i, \mathcal{M_j}),
+\end{equation}
+where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mathcal{M_j}$. The state-space vector $\mathcal{M_j}$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller et al.~\cite{subfilterpdf2011} proposed that Equation~ref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mathcal{J}$ can be expressed as
+\begin{equation}\label{eq:lesmodels:combust:producteos}
+  \phi = \mathcal{G}(Z, C, H)\mathcal{K}(\mathcal{M_j})),
+\end{equation}
+where $\mathcal{K}$ is unity if $\phi$ solely depends on the thermochemical quantities. The reasoning behind this simplification will be revisited in Chapter~ref{ch:subfiltermodeling}.
+
+In the following sections, further details about the RFPV model (Equation~\ref{eq:lesmodels:combust:rfpv}) will be discussed in the context of sooting flames. Definitions of the mixture fraction $Z$, progress variable $C$, and heat loss parameter $H$ are outlined to ensure that the equation of state (Equation~\ref{eq:lesmodels:combust:rfpv}) is a unique function in the presence of soot formation. Afterwards, the nonpremixed flamelet equations are presented with additional terms to account for soot formation.
 
 
-\subsection{Parameterization of Flame Structure}
+\subsection{Definition of Flame Structure Parameters}
 \label{sec:lesmodels:combust:map}
 
-Discuss mapping parameters for describing flame structure.
+
 
 
 \subsection{Flamelet Equations}
