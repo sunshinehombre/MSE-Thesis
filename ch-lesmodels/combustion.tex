@@ -17,13 +17,13 @@ where $\mathcal{G}$ is the functional relationship obtained from the augmented f
 
 For sooting flames, certain quantities such as the source terms in Equation~\ref{eq:lesmodels:soot:ndf:momtransport} are dependent on the soot scalars in addition to the thermochemical quantities. Therefore, a more general equation of state is formulated as
 \begin{equation}\label{eq:lesmodels:combust:jointeos}
-  \phi = \mathcal{J}(\xi_i, \mathcal{M_j}),
+  \phi = \mathcal{J}(\xi_i, \mathcal{M}_j),
 \end{equation}
-where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mathcal{M_j}$. The state-space vector $\mathcal{M_j}$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller et al.~\cite{subfilterpdf2011} proposed that Equation~ref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mathcal{J}$ can be expressed as
+where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mathcal{M}_j$. The state-space vector $\mathcal{M}_j$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller et al.~\cite{subfilterpdf2011} proposed that Equation~\ref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mathcal{J}$ can be expressed as
 \begin{equation}\label{eq:lesmodels:combust:producteos}
-  \phi = \mathcal{G}(Z, C, H)\mathcal{K}(\mathcal{M_j})),
+  \phi = \mathcal{G}(Z, C, H)\mathcal{K}(\mathcal{M}_j),
 \end{equation}
-where $\mathcal{K}$ is unity if $\phi$ solely depends on the thermochemical quantities. The reasoning behind this simplification will be revisited in Chapter~ref{ch:subfiltermodeling}.
+where $\mathcal{K}$ is unity if $\phi$ solely depends on the thermochemical quantities. The reasoning behind this simplification will be revisited in Chapter~\ref{ch:subfilter}.
 
 In the following sections, further details about the RFPV model (Equation~\ref{eq:lesmodels:combust:rfpv}) will be discussed in the context of sooting flames. Definitions of the mixture fraction $Z$, progress variable $C$, and heat loss parameter $H$ are outlined to ensure that the equation of state (Equation~\ref{eq:lesmodels:combust:rfpv}) is a unique function in the presence of soot formation. Afterwards, the nonpremixed flamelet equations are presented with additional terms to account for soot formation.
 
@@ -31,7 +31,32 @@ In the following sections, further details about the RFPV model (Equation~\ref{e
 \subsection{Definition of Flame Structure Parameters}
 \label{sec:lesmodels:combust:map}
 
+For a system with a single fuel stream and single oxidizer stream, the mixture fraction can be defined to be a conserved scalar with a value of one in the fuel stream and zero in the oxidizer stream~\cite{pitsch1998}. Such a definition is advantageous, as no assumptions about the species Lewis numbers have been made. However, the mixture fraction cannot be defined as a conserved scalar in sooting flames. During the nucleation of soot, PAH are extracted from the gas-phase, causing the mixture to be locally leaned. To account for this phenomena, the mixture fraction is defined through
+\begin{equation}\label{eq:lesmodels:combust:map:z}
+  \trder{Z} = \pder[]{x_j}\left( \rho D_Z \pder[Z]{x_j} \right) + \dot{m}_Z,
+\end{equation}
+where the diffusion coefficient $D_Z$ is chosen such that $Le_Z$ is unity. The source term $\dot{m}_Z$ is defined similarly to Bilger's mixture fraction based on element mass fractions~\cite{bilger1989}:
+\begin{equation}\label{eq:lesmodels:combust:map:zsource}
+  \dot{m}_Z = \frac{\frac{\dot{m}_{\ce{C}} - \dot{\rho}Z_{\ce{C},\ce{O}}}{\nu_{\ce{C}}W_{\ce{C}}} + \frac{\dot{m}_{\ce{H}} - \dot{\rho}Z_{\ce{H},\ce{O}}}{\nu_{\ce{H}}W_{\ce{H}}} + 2\frac{\dot{\rho}Z_{\ce{O},\ce{O}} - \dot{m}_{\ce{O}}}{\nu_{\ce{O2}}W_{\ce{O2}}}}{\frac{Z_{\ce{C},\ce{F}} - Z_{\ce{C},\ce{O}}}{\nu_{\ce{C}}W_{\ce{C}}} + \frac{Z_{\ce{H},\ce{F}} - Z_{\ce{H},\ce{O}}}{\nu_{\ce{H}}W_{\ce{H}}} + 2\frac{Z_{\ce{O},\ce{O}} - Z_{\ce{O},\ce{F}}}{\nu_{\ce{O2}}W_{\ce{O2}}}},
+\end{equation}
+where $\dot{m}_k$ are element mass source terms, $\dot{\rho}$ is the source term in the continuity equation for the removal of gas-phase PAH, $Z_{k,l}$ are the mass fractions of element $k$ in the stream indicated by $l$, $\nu_k$ are the stoichiometric coefficients of the global reaction between fuel and oxidizer, and $W_{k}$ are the element molar masses. In the limit of unity Lewis numbers for all species, Equations~\ref{eq:lesmodels:combust:map:z} and \ref{eq:lesmodels:combust:map:zsource} provide a definition of the mixture fraction that is equivalent to Bilger's mixture fraction based on element mass fractions~\cite{bilger1989}. This definition of mixture fraction ultimately leads to additional terms in the flamelet equations of Section~\ref{sec:lesmodels:combust:flamelet} that acknowledge the presence of soot.
 
+The reaction progress variable has been defined in previous works~\cite{pierce2004,ihme2008} as
+\begin{equation}\label{eq:lesmodels:combust:map:cprev}
+  C = Y_{\ce{CO2}} + Y_{\ce{CO}} + Y_{\ce{H2O}} + Y_{\ce{H2}}.
+\end{equation}
+However, this definition is not appropriate in the context of sooting flames. PAH have large amounts of carbon relative to hydrogen and oxygen, so their removal from the gas-phase tends to lower the local $\ce{C}$/$\ce{H}$ ratio. As a result, the local effective fuel composition is changed. To address this phenomena, the reaction progress variable is redefined through the transport equation given by
+\begin{equation}\label{eq:lesmodels:combust:map:c}
+  \trder{C} = \pder[]{x_j}\left( \rho D_C \pder[C]{x_j} \right) + \frac{\dot{m}_{C}}{C^*},
+\end{equation}
+where the diffusion coefficient $D_C$ is chosen such that $Le_C$ is unity, $\dot{m}_C$ is the source term for the conventional progress variable as defined in Equation~\ref{eq:lesmodels:combust:map:cprev}, and $C^*$ is a normalizing factor that accounts for the change in stoichiometry due to the removal of gas-phase PAH. It ensures that the equation of state~\ref{eq:lesmodels:combust:jointeos} remains unique even as the local $\ce{C}$/$\ce{H}$ ratio changes due to the nucleation of soot. In non-sooting flames, $C^*$ is constant because the local $\ce{C}$/$\ce{H}$ ratio is constant. Further details about $C^*$ can be found in Mueller et al.~\cite{mueller2012}.
+%With Equation~\ref{eq:lesmodels:combust:map:c}, the progress variable adopts the value of zero in both the fuel and oxidizer streams.
+
+The remaining mapping quantity to fully specify the thermochemical state given by Equation~\ref{eq:lesmodels:combust:rfpv} is the heat loss parameter $H$. This quantity provides a measure for the extent to which radiative thermal losses affect the enthalpy. A simple definition for the heat loss parameter is the enthalpy itself or the enthalpy deficit. The latter option is more convenient, as the adiabatic boundary has a well-defined value of zero in the limit of unity Lewis numbers for all species. However, the presence of soot can affect the adiabatic boundary for enthalpy deficit, and the inclusion of molecular transport brings in complications associated with tracking the enthalpy fluxes of different species. In either of these situations, a transport equation definition for the heat loss parameter $H$ is more convenient:
+\begin{equation}\label{eq:lesmodels:combust:map:heatloss}
+  \trder{H} = \pder[]{x_j}\left( \rho D_H \pder[H]{x_j} \right) + \dot{\rho}H + \dot{q}_{\text{RAD}},
+\end{equation}
+where the diffusion coefficient $D_H$ is chosen such that $Le_H$ is unity and $\dot{q}_{\text{RAD}}$ is the radiation source term. If $\dot{q}_{\text{RAD}}$ is zero, the second term on the right-hand side ensures that $H$ is constant everywhere. Initially, the heat loss parameter is zero throughout the nonpremixed system. As the cumulative effect of radiation becomes more powerful, the heat loss parameter acquires increasingly negative values.
 
 
 \subsection{Flamelet Equations}
