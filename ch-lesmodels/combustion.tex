@@ -5,25 +5,25 @@ In this section, effective strategies for incorporating combustion chemistry int
 
 A more computationally tractable method is the Flamelet/Progress Variable (FPV) approach for nonpremixed combustion~\cite{pierce2004}. In the FPV approach, the local thermochemical equation of state is described by the solutions of the steady flamelet equations~\cite{peters1984} and is parameterized by the mixture fraction $Z$ and reaction progress variable $C$
 \begin{equation}\label{eq:lesmodels:combust:fpv}
-  \xi_i = \mathcal{F}(Z,C),
+  \xi_i = \mc{F}(Z,C),
 \end{equation}
-where $\xi_i$ encompasses the thermochemical variables (density, temperature, species mass fractions, species source terms, etc.) and $\mathcal{F}$ is the functional relationship obtained from the solutions to the steady flamelet equations. To reduce computational overhead, these solutions are often computed \textit{a priori} and are stored in a database that is accessed during LES. Overall, the mapping given by Equation~\ref{eq:lesmodels:combust:fpv} has reduced the set of transported scalar variables to $Z$ and $C$, thereby drastically decreasing the number of required transport equations.
+where $\xi_i$ encompasses the thermochemical variables (density, temperature, species mass fractions, species source terms, etc.) and $\mc{F}$ is the functional relationship obtained from the solutions to the steady flamelet equations. To reduce computational overhead, these solutions are often computed \textit{a priori} and are stored in a database that is accessed during LES. Overall, the mapping given by Equation~\ref{eq:lesmodels:combust:fpv} has reduced the set of transported scalar variables to $Z$ and $C$, thereby drastically decreasing the number of required transport equations.
 
 However, this technique is insufficient for sooting flames due to its inability to predict the effects of thermal radiation. Soot evolution is characterized by long time scales and a sensitivity to the thermochemical state. Radiative thermal losses occur on similar temporal scales and can significantly alter the local thermochemical state. Therefore, radiative losses must be included. The Radiation Flamelet/Progress Variable (RFPV) approach has extended the FPV approach to include these losses~\cite{ihme2008} and therefore will be the foundation for the turbulent combustion model in this work. The database of solutions to the steady flamelet equations is expanded to include solutions with radiative losses, and a heat loss parameter $H$ is now added to the local thermochemical equation of state:
 \begin{equation}\label{eq:lesmodels:combust:rfpv}
-  \xi_i = \mathcal{G}(Z, C, H),
+  \xi_i = \mc{G}(Z, C, H),
 \end{equation}
-where $\mathcal{G}$ is the functional relationship obtained from the augmented flamelet database.
+where $\mc{G}$ is the functional relationship obtained from the augmented flamelet database.
 
 For sooting flames, certain quantities such as the source terms in Equation~\ref{eq:lesmodels:soot:ndf:momtransport} are dependent on the soot scalars in addition to the thermochemical quantities. Therefore, a more general equation of state is formulated as
 \begin{equation}\label{eq:lesmodels:combust:jointeos}
-  \phi = \mathcal{J}(\xi_i, \mathcal{M}_j),
+  \phi = \mc{J}(\xi_i, \mc{M}_j),
 \end{equation}
-where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mathcal{M}_j$. The state-space vector $\mathcal{M}_j$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller et al.~\cite{subfilterpdf2011} proposed that Equation~\ref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mathcal{J}$ can be expressed as
+where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mc{M}_j$. The state-space vector $\mc{M}_j$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller et al.~\cite{subfilterpdf2011} proposed that Equation~\ref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mc{J}$ can be expressed as
 \begin{equation}\label{eq:lesmodels:combust:producteos}
-  \phi = \mathcal{G}(Z, C, H)\mathcal{K}(\mathcal{M}_j),
+  \phi = \mc{G}(Z, C, H)\mc{K}(\mc{M}_j),
 \end{equation}
-where $\mathcal{K}$ is unity if $\phi$ solely depends on the thermochemical quantities. The reasoning behind this simplification will be revisited in Chapter~\ref{ch:subfilter}.
+where $\mc{K}$ is unity if $\phi$ solely depends on the thermochemical quantities. The reasoning behind this simplification will be revisited in Chapter~\ref{ch:subfilter}.
 
 In the following sections, further details about the RFPV model (Equation~\ref{eq:lesmodels:combust:rfpv}) will be discussed in the context of sooting flames. Definitions of the mixture fraction $Z$, progress variable $C$, and heat loss parameter $H$ are outlined to ensure that the equation of state (Equation~\ref{eq:lesmodels:combust:rfpv}) is a unique function in the presence of soot formation. Afterwards, the nonpremixed flamelet equations are presented with additional terms to account for soot formation.
 
@@ -43,13 +43,13 @@ where $\dot{m}_k$ are element mass source terms, $\dot{\rho}$ is the source term
 
 The reaction progress variable has been defined in previous works~\cite{pierce2004,ihme2008} as
 \begin{equation}\label{eq:lesmodels:combust:map:cprev}
-  C = Y_{\ce{CO2}} + Y_{\ce{CO}} + Y_{\ce{H2O}} + Y_{\ce{H2}}.
+  C_{\text{conv}} = Y_{\ce{CO2}} + Y_{\ce{CO}} + Y_{\ce{H2O}} + Y_{\ce{H2}}.
 \end{equation}
-However, this definition is not appropriate in the context of sooting flames. PAH have large amounts of carbon relative to hydrogen and oxygen, so their removal from the gas-phase tends to lower the local $\ce{C}$/$\ce{H}$ ratio. As a result, the local effective fuel composition is changed. To address this phenomena, the reaction progress variable is redefined through the transport equation given by
+However, this conventional definition is not appropriate in the context of sooting flames. PAH have large amounts of carbon relative to hydrogen and oxygen, so their removal from the gas-phase tends to lower the local $\ce{C}$/$\ce{H}$ ratio. As a result, the local effective fuel composition is changed. To address this phenomena, the reaction progress variable is redefined through the transport equation given by
 \begin{equation}\label{eq:lesmodels:combust:map:c}
-  \trder{C} = \pder[]{x_j}\left( \rho D_C \pder[C]{x_j} \right) + \frac{\dot{m}_{C}}{C^*},
+  \trder{C} = \pder[]{x_j}\left( \rho D_C \pder[C]{x_j} \right) + \frac{\dot{m}_{C_{\text{conv}}}}{C^*},
 \end{equation}
-where the diffusion coefficient $D_C$ is chosen such that $Le_C$ is unity, $\dot{m}_C$ is the source term for the conventional progress variable as defined in Equation~\ref{eq:lesmodels:combust:map:cprev}, and $C^*$ is a normalizing factor that accounts for the change in stoichiometry due to the removal of gas-phase PAH. It ensures that the equation of state~\ref{eq:lesmodels:combust:jointeos} remains unique even as the local $\ce{C}$/$\ce{H}$ ratio changes due to the nucleation of soot. In non-sooting flames, $C^*$ is constant because the local $\ce{C}$/$\ce{H}$ ratio is constant. Further details about $C^*$ can be found in Mueller et al.~\cite{mueller2012}.
+where the diffusion coefficient $D_C$ is chosen such that $Le_C$ is unity, $\dot{m}_{C_{\text{conv}}}$ is the source term for the conventional progress variable as defined in Equation~\ref{eq:lesmodels:combust:map:cprev}, and $C^*$ is a normalizing factor that accounts for the change in stoichiometry due to the removal of gas-phase PAH. It ensures that the equation of state~\ref{eq:lesmodels:combust:jointeos} remains unique even as the local $\ce{C}$/$\ce{H}$ ratio changes due to the nucleation of soot. In non-sooting flames, $C^*$ is constant because the local $\ce{C}$/$\ce{H}$ ratio is constant. Further details about $C^*$ can be found in Mueller et al.~\cite{mueller2012}.
 %With Equation~\ref{eq:lesmodels:combust:map:c}, the progress variable adopts the value of zero in both the fuel and oxidizer streams.
 
 The remaining mapping quantity to fully specify the thermochemical state given by Equation~\ref{eq:lesmodels:combust:rfpv} is the heat loss parameter $H$. This quantity provides a measure for the extent to which radiative thermal losses affect the enthalpy. A simple definition for the heat loss parameter is the enthalpy itself or the enthalpy deficit. The latter option is more convenient, as the adiabatic boundary has a well-defined value of zero in the limit of unity Lewis numbers for all species. However, the presence of soot can affect the adiabatic boundary for enthalpy deficit, and the inclusion of molecular transport brings in complications associated with tracking the enthalpy fluxes of different species. In either of these situations, a transport equation definition for the heat loss parameter $H$ is more convenient:
@@ -62,4 +62,50 @@ where the diffusion coefficient $D_H$ is chosen such that $Le_H$ is unity and $\
 \subsection{Flamelet Equations}
 \label{sec:lesmodels:combust:flamelet}
 
-Information about flamelet equations.
+The thermochemical equation of state obtained from the RFPV approach (Equation~\ref{eq:lesmodels:combust:rfpv}) is specified by the solutions to the steady flamelet equations. These solutions, which are computed \textit{a priori} and stored in a database that is accessed during LES, provide a description of the thermal and chemical structure of the laminar nonpremixed flame. The species flamelet equation is derived from the conservation equation for the species mass fractions
+\begin{equation}\label{eq:lesmodels:combust:flamelet:consy}
+  \trder{Y_k} = -\pder[]{x_j}\left( \rho Y_k V_{k,j} \right) + \dot{m}_k,
+\end{equation}
+where $Y_k$ is the mass fraction of species $k$, $V_{k,j}$ is the diffusion velocity of species $k$ in the direction indicated by $j$, and $\dot{m}_k$ is the chemical source term for species $k$. The diffusion velocity has contributions from mass diffusion in the presence of concentration gradients, pressure gradients, body forces, and temperature gradients (a second order effect known as Soret diffusion)~\cite{law2006}. By only considering diffusion through concentration gradients, the diffusion velocity is described by the Stefan-Maxwell equation. However, evaluating the linear system associated with the Stefan-Maxwell equation can be computationally expensive, and therefore further simplifications are often made with the Curtiss-Hirschfeld approximation~\cite{curtiss1949} or Fick's law of diffusion~\cite{fick1855}. Fick's law assumes all species have the same constant Lewis number and is given by
+\begin{equation}\label{eq:lesmodels:combust:flamelet:fick}
+  V_{k,j} = -\frac{1}{Y_k}D\pder[Y_k]{x_j},
+\end{equation}
+where $D$ is the constant diffusion coefficient. For turbulent flames at sufficiently high Reynolds numbers, it is often assumed that the turbulence mixes all species indiscriminately~\cite{pitsch19981057}. Thus, $D$ will be selected such that $Le_k$ is unity. Note that in Chapter~\ref{ch:transport}, this assumption will be revisited.
+
+The temperature flamelet equation is obtained from the conservation equation for energy in terms of temperature under the assumption of constant thermodynamic pressure
+\begin{equation}\label{eq:lesmodels:combust:flamelet:const}
+  \trder{T} = \frac{1}{c_p}\left[ \pder[]{x_j}\left( \lambda\pder[T]{x_j} \right) + \sum\limits_{k} \rho c_{p,k} D\pder[Y_k]{x_j}\pder[T]{x_j} - \sum\limits_{k} h_k\dot{m}_k + \dot{q}_{\text{RAD}} \right],
+\end{equation}
+where $\lambda$ is the thermal conductivity, $c_p$ is the specific heat at constant pressure, $c_{p,k}$ is the specific heat at constant pressure for species $k$, and $h_k$ is the specific enthalpy of species $k$. Fick's law is implemented in the second term on the right-hand side.
+
+The flamelet equations are derived by transforming the physical space coordinate system to a mixture-fraction based coordinate system attached to the surface of stoichiometric mixture~\cite{peters1984}. It is assumed that the gradients along the flame surface are negligible compared to the gradients normal to the flame surface. For sooting flames, the flamelet equations possess additional terms due to the source terms in Equation~\ref{eq:lesmodels:combust:map:z} and the continuity equation. Thus, for unity Lewis numbers, Equation~\ref{eq:lesmodels:combust:flamelet:consy} is transformed to
+\begin{equation}\label{eq:lesmodels:combust:flamelet:flamelety}
+  \rho\pder[Y_k]{\tau} = \frac{\rho\chi}{2}\sder[Y_k]{Z} + \dot{m}_k - \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z},
+\end{equation}
+where the third term on the right-hand side is due to the source term of the continuity equation and the fourth term on the right-hand side is a convective term in mixture fraction space due to the density and mixture fraction source terms. These two new terms ensure that mass is conserved and that the database of thermochemical states remains unique, although they do not play a substantial role in the dynamics of Equation~\ref{eq:lesmodels:combust:flamelet:flamelety}.
+
+Similarly, Equation~\ref{eq:lesmodels:combust:flamelet:const} is transformed to obtain the flamelet equation for temperature:
+\begin{equation}\label{eq:lesmodels:combust:flamelet:flamelett}
+  \begin{split}
+    \rho c_p \pder[T]{\tau} &= \frac{\rho c_p \chi}{2}\sder[T]{Z} + \frac{\rho\chi}{2}\pder[c_p]{Z}\pder[T]{Z} - \sum\limits_{k} h_k\dot{m}_k + \sum\limits_{k} \frac{\rho c_{p,k}\chi}{2}\pder[Y_k]{Z}\pder[T]{Z} + \Omega_{\text{RAD}}\dot{q}_{\text{RAD}} \\
+    &+ \dot{H} + c_p(\dot{\rho}Z - \dot{m}_Z)\pder[T]{Z},
+  \end{split}
+\end{equation}
+where the radiation loss coefficient $\Omega_{\text{RAD}} \in [0,1]$, $\dot{H}$ is the enthalpy source term due to the extraction of PAH from the gas-phase, and the last term on the second line is the convection term in mixture fraction space that is analogous to the one discussed in Equation~\ref{eq:lesmodels:combust:flamelet:flamelety}. In addition to these quantities, flamelet equations for the progress variable $C$ and heat loss parameter $H$ need to be computed. Performing the coordinate transform on Equation~\ref{eq:lesmodels:combust:map:c} provides the flamelet equation for the progress variable:
+\begin{equation}\label{eq:lesmodels:combust:flamelet:flameletc}
+  \rho\pder[C]{\tau} = \frac{\rho\chi}{2}\sder[C]{Z} + \frac{\dot{m}_{C_{\text{conv}}}}{C^*} - \dot{\rho}C + (\dot{\rho}Z - \dot{m}_Z)\pder[C]{Z},
+\end{equation}
+and performing a similar operation on Equation~\ref{eq:lesmodels:combust:map:heatloss} leads to the flamelet equation for the heat loss parameter:
+\begin{equation}\label{eq:lesmodels:combust:flamelet:flameleth}
+  \rho\pder[H]{\tau} = \frac{\rho\chi}{2}\sder[H]{Z} + (\dot{\rho}Z - \dot{m}_Z)\pder[H]{Z} + \dot{q}_{\text{RAD}}.
+\end{equation}
+Since the latter two quantities are not functions of the species mass fractions and temperature, evaluation of Equations~\ref{eq:lesmodels:combust:flamelet:flameletc} and \ref{eq:lesmodels:combust:flamelet:flameleth} is required to produce the complete parameterization of the database of thermochemical quantities.
+
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{ch-lesmodels/figures/TvsChi-connected}
+    \caption[Flamelet Solutions of RFPV Model, $T|Z_{st}$ vs. $\chi|Z_{st}$]{Solutions to the flamelet equations of the RFPV model for a $\ce{C2H4}$/$\ce{H2}$/$\ce{N2}$ [40/41/19 by volume] nonpremixed flame at atmospheric pressure~\cite{mahmoud2017}. The radiation loss coefficient $\Omega_{\text{RAD}}$, introduced in Equation~\ref{eq:lesmodels:combust:flamelet:flamelett}, is varied from zero to unity to span the heat loss parameter space. The red circles, obtained when $\Omega_{\text{RAD}} = 0$, are the adiabatic, steady, stable-burning solutions. As $\Omega_{\text{RAD}}$ is increased, the radiative thermal losses grow stronger and the maximum flame temperature is diminished. The diamonds that transition color from red to blue are the nonadiabatic, steady, stable-burning solutions that reflect this trend. Diamonds of the same color are linked with a dashed line and possess a distinct, nonzero $\Omega_{\text{RAD}}$. The blue diamonds, obtained when $\Omega_{\text{RAD}} = 1$, are the steady, stable-burning solutions with full radiative losses. The magenta triangles are the adiabatic, steady, unstable-burning solutions. The black square is the adiabatic, steady, non-burning solution. Note that only stable-burning flamelet solutions with a flame temperature above $\sim 1400$ K are retained, as reaction rates below this temperature are severely hampered (ignoring any low-temperature chemistry phenomena).}
+    \label{fig:lesmodels:combust:flamelet:tvschi}
+  \end{center}
+\end{figure}
