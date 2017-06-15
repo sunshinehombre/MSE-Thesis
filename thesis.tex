@@ -94,6 +94,7 @@
 % To write chemical reactions easily
 \usepackage[version=4]{mhchem}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
 \ifdefined\printmode
@@ -139,6 +140,10 @@
 %\hypersetup{linktocpage}
 \fi % proquest or online formatting
 \fi % printed or online formatting
+
+% For grouped references to equations
+% Needs to be placed last, after all ``\usepackage'' commands
+\usepackage[capitalise]{cleveref}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
