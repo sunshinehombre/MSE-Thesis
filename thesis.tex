@@ -154,14 +154,26 @@
 %\newcommand{\todo}[1]{\textbf{\emph{TODO:}#1}}
 
   %% Commands for writing equations
-  \newcommand*\mc[1]{\mathcal{#1}}
-  \newcommand*\mean[1]{\overline{#1}}
-  \newcommand*\tf[1]{\widetilde{#1}}
-  \newcommand{\tff}[1]{\widetilde{\overline{#1}}}
-  \newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
-  \newcommand{\sder}[2][]{\frac{\partial^{2}#1}{\partial#2^{2}}}
-  \newcommand{\tder}[1]{\pder[#1]{t} + \pder[u_j#1]{x_j}}
-  \newcommand{\trder}[1]{\pder[\rho #1]{t} + \pder[\rho u_j#1]{x_j}}
+  \newcommand*\mc[1]{\mathcal{#1}}                % To change argument to script font
+  \newcommand*\mean[1]{\overline{#1}}             % Average qtys. or LES low-pass filter
+  \newcommand*\tf[1]{\widetilde{#1}}              % Density-weighted filter (LES low-pass filtered qtys.)
+  \newcommand{\tff}[1]{\widetilde{\overline{#1}}} % Combine above two 
+  \newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}            % Partial derivative
+  \newcommand{\sder}[2][]{\frac{\partial^{2}#1}{\partial#2^{2}}}      % Second partial derivative
+  \newcommand{\tder}[1]{\pder[#1]{t} + \pder[u_j#1]{x_j}}            % Total derivative
+  \newcommand{\trder}[1]{\pder[\rho #1]{t} + \pder[\rho u_j#1]{x_j}} % Total derivative (conservative form)
+
+  % Density-weighted LES filtered total derivative (conservative form)
+  \newcommand{\ftrder}[1]{\pder[\mean{\rho}#1]{t} + \pder[\mean{\rho}\tf{u}_j#1]{x_j}}
+
+  % Divergence of subfilter flux
+  \newcommand{\dsff}[2][]{\pder[]{x_j}\left( \mean{\rho}\tf{u}_j#1 - \mean{\rho}#2 \right)}
+
+  % Density-weighted LES filtered diffusion term
+  \newcommand{\fdt}[2][]{\pder[]{x_j}\left( \mean{\rho}\tf{D}_{#1}\pder[#2]{x_j} \right)}
+
+  % LES filtered source term
+  \newcommand{\fst}[2][]{\mean{\dot{#1}}_{#2}}
 
 % create an environment that will indent text
 % see: http://latex.computersci.org/Reference/ListEnvironments
