@@ -5,21 +5,21 @@ In this section, effective strategies for incorporating combustion chemistry int
 
 A more computationally tractable method is the Flamelet/Progress Variable (FPV) approach for nonpremixed combustion~\cite{pierce2004}. In the FPV approach, the local thermochemical equation of state is described by the solutions of the steady flamelet equations~\cite{peters1984} and is parameterized by the mixture fraction $Z$ and reaction progress variable $C$
 \begin{equation}\label{eq:lesmodels:combust:fpv}
-  \xi_i = \mc{F}(Z,C),
+  \xi = \mc{F}(Z,C),
 \end{equation}
-where $\xi_i$ encompasses the thermochemical variables (density, temperature, species mass fractions, species source terms, etc.) and $\mc{F}$ is the functional relationship obtained from the solutions to the steady flamelet equations. To reduce computational overhead, these solutions are often computed \textit{a priori} and are stored in a database that is accessed during LES. Overall, the mapping given by \cref{eq:lesmodels:combust:fpv} has reduced the set of transported scalar variables to $Z$ and $C$, thereby drastically decreasing the number of required transport equations.
+where $\xi$ encompasses the thermochemical variables (density, temperature, species mass fractions, species source terms, etc.) and $\mc{F}$ is the functional relationship obtained from the solutions to the steady flamelet equations. To reduce computational overhead, these solutions are often computed \textit{a priori} and are stored in a database that is accessed during LES. Overall, the mapping given by \cref{eq:lesmodels:combust:fpv} has reduced the set of transported scalar variables to $Z$ and $C$, thereby drastically decreasing the number of required transport equations.
 
 However, this technique is insufficient for sooting flames due to its inability to predict the effects of thermal radiation. Soot evolution is characterized by long time scales and a sensitivity to the thermochemical state. Radiative thermal losses occur on similar temporal scales and can significantly alter the local thermochemical state. Therefore, radiative losses must be included. The Radiation Flamelet/Progress Variable (RFPV) approach has extended the FPV approach to include these losses~\cite{ihme2008} and therefore will be the foundation for the turbulent combustion model in this work. The database of solutions to the steady flamelet equations is expanded to include solutions with radiative losses, and a heat loss parameter $H$ is now added to the local thermochemical equation of state:
 \begin{equation}\label{eq:lesmodels:combust:rfpv}
-  \xi_i = \mc{G}(Z, C, H),
+  \xi = \mc{G}(Z, C, H),
 \end{equation}
 where $\mc{G}$ is the functional relationship obtained from the augmented flamelet database.
 
 For sooting flames, certain quantities such as the source terms in \cref{eq:lesmodels:soot:ndf:momtransport} are dependent on the soot scalars in addition to the thermochemical quantities. Therefore, a more general equation of state is formulated as
 \begin{equation}\label{eq:lesmodels:combust:jointeos}
-  \phi = \mc{J}(\xi_i, \mc{M}_j),
+  \phi = \mc{J}(\xi, \mc{M}_j),
 \end{equation}
-where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi_i$ and the soot scalars $\mc{M}_j$. The state-space vector $\mc{M}_j$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller and Pitsch~\cite{subfilterpdf2011} proposed that \cref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mc{J}$ can be expressed as
+where $\phi$ is now any quantity that could depend jointly on the thermochemical variables $\xi$ and the soot scalars $\mc{M}_j$. The state-space vector $\mc{M}_j$ encompasses the moments $M_{x,y}$ and the weight of the delta function allocated for nucleating particles $N_0$. Mueller and Pitsch~\cite{subfilterpdf2011} proposed that \cref{eq:lesmodels:combust:jointeos} could be simplified by assuming that all of the quantities needed in the soot model can be written as the product of a function that depends only on the thermochemical state and a function that depends only on the soot scalars. Ergo, the functional relation $\mc{J}$ can be expressed as
 \begin{equation}\label{eq:lesmodels:combust:producteos}
   \phi = \mc{G}(Z, C, H)\mc{K}(\mc{M}_j),
 \end{equation}
@@ -66,7 +66,7 @@ The thermochemical equation of state obtained from the RFPV approach (\cref{eq:l
 \begin{equation}\label{eq:lesmodels:combust:flamelet:consy}
   \trder{Y_k} = -\pder[]{x_j}\left( \rho Y_k V_{k,j} \right) + \dot{m}_k,
 \end{equation}
-where $Y_k$ is the mass fraction of species $k$, $V_{k,j}$ is the diffusion velocity of species $k$ in the direction indicated by $j$, and $\dot{m}_k$ is the chemical source term for species $k$. The diffusion velocity has contributions from mass diffusion in the presence of concentration gradients, pressure gradients, body forces, and temperature gradients (a second order effect known as Soret diffusion)~\cite{law2006}. By only considering diffusion through concentration gradients, the diffusion velocity is described by the Stefan-Maxwell equation. However, evaluating the linear system associated with the Stefan-Maxwell equation can be computationally expensive, and therefore further simplifications are often made with the Curtiss-Hirschfeld approximation~\cite{curtiss1949} or Fick's law of diffusion~\cite{fick1855}. Fick's law assumes all species have the same constant Lewis number and is given by
+where $Y_k$ is the mass fraction of species $k$, $V_{k,j}$ is the diffusion velocity of species $k$ in the direction indicated by $j$, and $\dot{m}_k$ is the chemical source term for species $k$. The diffusion velocity has contributions from mass diffusion in the presence of concentration gradients, pressure gradients, body forces, and temperature gradients (a second order effect known as Soret diffusion)~\cite{law2006}. By only considering diffusion through concentration gradients, the diffusion velocity is described by the Stefan-Maxwell equation. However, evaluating the linear system associated with the Stefan-Maxwell equation can be computationally expensive, and therefore further simplifications are often made with the Curtiss-Hirschfelder approximation~\cite{curtiss1949} or Fick's law of diffusion~\cite{fick1855}. Fick's law assumes all species have the same constant Lewis number and is given by
 \begin{equation}\label{eq:lesmodels:combust:flamelet:fick}
   V_{k,j} = -\frac{1}{Y_k}D\pder[Y_k]{x_j},
 \end{equation}
