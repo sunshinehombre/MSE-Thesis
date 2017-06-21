@@ -62,6 +62,11 @@
 
 %\usepackage{amsfonts}
 
+% Proper font encoding, especially for dashes in bibliography
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
 % To allow for text in math mode
 \usepackage{amsmath}    
 
@@ -211,9 +216,9 @@
 %%%% Front-matter
 
 % For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
-\ifodd 0 % 06/06/2017 jklew: DEFAULT IS 0
+\ifodd 1 % 06/06/2017 jklew: DEFAULT IS 0
 % front-matter disabled while writing chapters
-\renewcommand{\maketitlepage}{}
+%%%\renewcommand{\maketitlepage}{}
 \renewcommand*{\makecopyrightpage}{}
 \renewcommand*{\makeabstract}{}
 
@@ -221,7 +226,7 @@
 
 \else
 
-
+% 06/21/2017 DEFAULT FOR BELOW IS UNCOMMENTED
 \abstract{
 % Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
 \input{abstract}
@@ -245,6 +250,8 @@
 %%% You can also specify multiple chapters.
 %\includeonly{ch-intro/chapter-intro,ch-usage/chapter-usage}
 %\includeonly{chap1,chap2,chap3}
+
+%\includeonly{ch-lesmodels/chapter-lesmodels}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
