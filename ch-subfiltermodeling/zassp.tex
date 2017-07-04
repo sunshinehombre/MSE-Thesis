@@ -13,23 +13,23 @@ $H(\cdot)$ is the Heaviside function and $\mc{M}_j^{**}$ is selected so that $\m
 
 The subfilter intermittency must also incorporate the dependence on mixture fraction so that
 \begin{equation}\label{eq:subfilter:zassp:omega}
-  \omega = 1 - \frac{1}{\int H(Z - Z_{st})P(Z)dZ} \cdot \frac{{\mean{M}_{x,y}}^2}{\mean{{M_{x,y}}^2}},
+  \omega = 1 - \frac{1}{\int H(Z - Z_{st})\pz dZ} \cdot \frac{{\mean{M}_{x,y}}^2}{\mean{{M_{x,y}}^2}},
 \end{equation}
-where $P(Z)$ is modeled with a beta distribution as in \cref{eq:lesmodels:presumedpdf:trimarg} and the total number density $M_{0,0}$ is selected to provide the best model performance~\cite{subfilterpdf2011}. Note that while \cref{eq:subfilter:zussp:omega} is bounded between zero and unity, \cref{eq:subfilter:zassp:omega} is unbounded because $\int H(Z - Z_{st})P(Z)dZ$ could approach a value of zero. The resulting numerical challenges can be mitigated by introducing an arbitrarily small, nonzero threshold $\Upsilon$. When the value of the integral is less than this threshold, the subfilter distribution of mixture fraction is right-skewed, as nearly the entire mass of the distibution is concentrated at mixture fractions below stoichiometric. Soot cannot exist at such lean conditions, so $\omega$ is assigned a value of unity to indicate that no soot can be found within the LES filter width. When $\int H(Z - Z_{st})P(Z)dZ$ approaches unity, the subfilter distribution of mixture fraction is heavily left-skewed. These fuel-rich conditions can support the presence of soot, and \cref{eq:subfilter:zassp:omega} reduces to \cref{eq:subfilter:zussp:omega} in the limit that the integral evaluates to unity. For $\Upsilon < \int H(Z - Z_{st})P(Z)dZ < 1$, the subfilter intermittency $\omega$ can adopt negative values. This is nonsensical, as the subfilter intermittency should be interpreted as the probability of not finding soot within an LES filter width. As a consequence, $\omega$ is clipped to a minimum value of zero.
+where $\pz$ is modeled with a beta distribution as in \cref{eq:lesmodels:presumedpdf:trimarg} and the total number density $M_{0,0}$ is selected to provide the best model performance~\cite{subfilterpdf2011}. Note that while \cref{eq:subfilter:zussp:omega} is bounded between zero and unity, \cref{eq:subfilter:zassp:omega} is unbounded because $\int H(Z - Z_{st})\pz dZ$ could approach a value of zero. The resulting numerical challenges can be mitigated by introducing an arbitrarily small, nonzero threshold $\Upsilon$. When the value of the integral is less than this threshold, the subfilter distribution of mixture fraction is right-skewed, as nearly the entire mass of the distibution is concentrated at mixture fractions below stoichiometric. Soot cannot exist at such lean conditions, so $\omega$ is assigned a value of unity to indicate that no soot can be found within the LES filter width. When $\int H(Z - Z_{st})\pz dZ$ approaches unity, the subfilter distribution of mixture fraction is heavily left-skewed. These fuel-rich conditions can support the presence of soot, and \cref{eq:subfilter:zassp:omega} reduces to \cref{eq:subfilter:zussp:omega} in the limit that the integral evaluates to unity. For $\Upsilon < \int H(Z - Z_{st})\pz dZ < 1$, the subfilter intermittency $\omega$ can adopt negative values. This is nonsensical, as the subfilter intermittency should be interpreted as the probability of not finding soot within an LES filter width. As a consequence, $\omega$ is clipped to a minimum value of zero.
 
 Lastly, \cref{eq:subfilter:zassp:dd} is utilized to derive new expressions for the filtered source terms of the LES transport equation for the moments (\cref{eq:subfilter:zussp:momtransport}). For example, the oxidation source term becomes
 \begin{equation}\label{eq:subfilter:zassp:ox}
   \begin{split}
-    \mean{\dot{M}}_{x,y}^{ox} &= \iint k_{ox}(Z)\mc{M}_jP(Z)P(\mc{M}_j|Z) dZ d\mc{M}_j \\
+    \mean{\dot{M}}_{x,y}^{ox} &= \iint k_{ox}(Z)\mc{M}_j\pz P(\mc{M}_j|Z) dZ d\mc{M}_j \\
     &= \check{k}_{ox}\mean{M}_j,
   \end{split}
 \end{equation}
 where the integrated form of the oxidation coefficient now depends on the stoichiometric mixture fraction
 \begin{equation}\label{eq:subfilter:zassp:kox}
-  \check{k}_{ox} = \frac{\int k_{ox}(Z)H(Z - Z_{st})P(Z)dZ}{\int H(Z - Z_{st})P(Z)dZ}.
+  \check{k}_{ox} = \frac{\int k_{ox}(Z)H(Z - Z_{st})\pz dZ}{\int H(Z - Z_{st})\pz dZ}.
 \end{equation}
 It is discernable that this expression faces the same numerical issues as the subfilter intermittency of \cref{eq:subfilter:zassp:omega}. Therefore, the filtered moment source terms are practically implemented by expressing them in terms of $\omega$ and $\mc{M}_j^{**}$, which have been formulated to avoid those complications:
 \begin{equation}\label{eq:subfilter:zassp:practicalox}
   \mean{\dot{M}}_{x,y}^{ox} = \breve{k}_{ox}f(\omega,\mc{M}_j^{**}),
 \end{equation}
-where $\breve{k}_{ox} = \int k_{ox}(Z)H(Z - Z_{st})P(Z)dZ$.
+where $\breve{k}_{ox} = \int k_{ox}(Z)H(Z - Z_{st})\pz dZ$.
