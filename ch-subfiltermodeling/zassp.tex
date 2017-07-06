@@ -9,7 +9,7 @@ where the sooting mode is activated only for rich values of mixture fraction thr
 \begin{equation}\label{eq:subfilter:zassp:mstar}
   \mc{M}_j^*(Z) = \mc{M}_j^{**}H(Z - Z_{st}).
 \end{equation}
-$H(\cdot)$ is the Heaviside function and $\mc{M}_j^{**}$ is selected so that $\mc{M}_j^*(Z)$ recovers the filtered values of the soot scalars upon integration of $\tf{P}(\xi,\mc{M}_j)$.
+$H(\cdot)$ is the Heaviside function and $\mc{M}_j^{**}$ is selected so that $\mc{M}_j^*(Z)$ recovers the filtered values of the soot scalars upon integration of $\tf{P}(\xi,\mc{M}_j)$. It is evident that \cref{eq:subfilter:zassp:dd,eq:subfilter:zassp:mstar} still presume a uniform subfilter distribution of soot at rich values of mixture fraction. In the right-hand plot of \cref{fig:subfilter:leszussp:ysvsz}, the DNS of Attili et al.~\cite{attili2014} shows that such a model is more appropriate at later times as steady-state behavior is approached. For the earlier transitional stages, the delta distribution representing the sooting mode of \cref{eq:subfilter:zassp:dd} may be replaced with one that captures the nonuniformity of soot at rich mixture fractions (cite Mr. Berger's upcoming paper here). Note that the increased accuracy associated with such a modification is expected to be accompanied with additional computational expense, as more sophisticated distributions require a larger set of parameters.
 
 The subfilter intermittency must also incorporate the dependence on mixture fraction so that
 \begin{equation}\label{eq:subfilter:zassp:omega}
