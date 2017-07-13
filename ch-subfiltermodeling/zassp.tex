@@ -9,7 +9,7 @@ where the sooting mode is activated only for rich values of mixture fraction thr
 \begin{equation}\label{eq:subfilter:zassp:mstar}
   \mc{M}_j^*(Z) = \mc{M}_j^{**}H(Z - Z_{st}).
 \end{equation}
-$H(\cdot)$ is the Heaviside function and $\mc{M}_j^{**}$ is selected so that $\mc{M}_j^*(Z)$ recovers the filtered values of the soot scalars upon integration of $\tf{P}(\xi,\mc{M}_j)$. It is evident that \cref{eq:subfilter:zassp:dd,eq:subfilter:zassp:mstar} still presume a uniform subfilter distribution of soot at rich values of mixture fraction. In the right-hand plot of \cref{fig:subfilter:leszussp:ysvsz}, the DNS of Attili et al.~\cite{attili2014} shows that such a model is more appropriate at later times as steady-state behavior is approached. For the earlier transitional stages, the delta distribution representing the sooting mode of \cref{eq:subfilter:zassp:dd} may be replaced with one that captures the nonuniformity of soot at rich mixture fractions (cite Mr. Berger's upcoming paper here). Note that the increased accuracy associated with such a modification is expected to be accompanied with additional computational expense, as more sophisticated distributions require a larger set of parameters.
+$H(\cdot)$ is the Heaviside function and $\mc{M}_j^{**}$ is selected so that $\mc{M}_j^*(Z)$ recovers the filtered values of the soot scalars upon integration of $\tf{P}(\xi,\mc{M}_j)$. It is evident that \cref{eq:subfilter:zassp:dd,eq:subfilter:zassp:mstar} still presume a uniform subfilter distribution of soot at rich values of mixture fraction. In the right-hand plot of \cref{fig:subfilter:leszussp:ysvsz}, the DNS of Attili et al.~\cite{attili2014} shows that such a model is more appropriate at later times as steady-state behavior is approached. For the earlier transitional stages, the delta distribution representing the sooting mode of \cref{eq:subfilter:zassp:dd} may be replaced with one that captures the nonuniformity of soot at rich mixture fractions~\cite{berger2017}. Note that the increased accuracy associated with such a modification is expected to be accompanied with additional computational expense, as more sophisticated distributions require a larger set of parameters.
 
 The subfilter intermittency must also incorporate the dependence on mixture fraction so that
 \begin{equation}\label{eq:subfilter:zassp:omega}
@@ -20,7 +20,7 @@ where $\pz$ is modeled with a beta distribution as in \cref{eq:lesmodels:presume
 Lastly, \cref{eq:subfilter:zassp:dd} is utilized to derive new expressions for the filtered source terms of the LES transport equation for the moments (\cref{eq:subfilter:zussp:momtransport}). For example, the oxidation source term becomes
 \begin{equation}\label{eq:subfilter:zassp:ox}
   \begin{split}
-    \mean{\dot{M}}_{x,y}^{ox} &= \iint k_{ox}(Z)\mc{M}_j\pz P(\mc{M}_j|Z) dZ d\mc{M}_j \\
+    \fst[M]{x,y}^{ox} &= \iint k_{ox}(Z)\mc{M}_j P(\mc{M}_j|Z)\pz dZ d\mc{M}_j \\
     &= \check{k}_{ox}\mean{M}_j,
   \end{split}
 \end{equation}
@@ -30,6 +30,6 @@ where the integrated form of the oxidation coefficient now depends on the stoich
 \end{equation}
 It is discernable that this expression faces the same numerical issues as the subfilter intermittency of \cref{eq:subfilter:zassp:omega}. Therefore, the filtered moment source terms are practically implemented by expressing them in terms of $\omega$ and $\mc{M}_j^{**}$, which have been formulated to avoid those complications:
 \begin{equation}\label{eq:subfilter:zassp:practicalox}
-  \mean{\dot{M}}_{x,y}^{ox} = \breve{k}_{ox}f(\omega,\mc{M}_j^{**}),
+  \fst[M]{x,y}^{ox} = \breve{k}_{ox}f(\omega,\mc{M}_j^{**}),
 \end{equation}
 where $\breve{k}_{ox} = \int k_{ox}(Z)H(Z - Z_{st})\pz dZ$.
