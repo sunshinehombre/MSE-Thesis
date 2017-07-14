@@ -70,7 +70,7 @@ where the angle brackets $< \cdot >$ denote the conditional averaging operator a
   \label{fig:subfilter:dns:kox}
 \end{figure}
 
-The second quantity that needs to be estimated is the thermochemical subfilter PDF $\pz$, since the DNS database does not have the infinite number of points required to construct the true subfilter distribution. As before, this work will presume the form of a beta PDF for $\pz$. The error associated with this assumption can be discerned by juxtaposing two versions of \cref{eq:subfilter:leszussp:ox} that use the same $Z$-uniform soot subfilter PDF but approximate $k_{ox}(Z)$ with and without $\pz$. The form of the filtered moment source term for oxidation that excludes $\pz$ shall be referred to as the ``ZUSSP without $\pz$'' case and is given by
+The second quantity that needs to be estimated is the thermochemical subfilter PDF $\pz$, since the DNS database does not have the infinite number of points required to construct the true subfilter distribution. As before, this work will presume the form of a beta distribution for $\pz$. The error associated with this assumption can be discerned by juxtaposing two versions of \cref{eq:subfilter:leszussp:ox} that use the same $Z$-uniform soot subfilter PDF but approximate $k_{ox}(Z)$ with and without $\pz$. The form of the filtered moment source term for oxidation that excludes $\pz$ shall be referred to as the ``ZUSSP without $\pz$'' case and is given by
 \begin{equation}\label{eq:subfilter:dns:mzusspwithoutpz}
   \fst[M]{1,0}^{ox} = \{ \tf{k_{ox}(x_j)|Z(x_j)} \} \cdot \mean{M_{0,1}(x_j)},
 \end{equation}
@@ -86,7 +86,7 @@ where $\{ k_{ox}|Z \}$ is the density-weighted, conditionally averaged oxidation
 \end{equation}
 These comparisons are visible for a filter width of $\Delta/h = 32$ in \cref{fig:subfilter:dns:erroronbetaox}. The top two plots show that \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz} generally overpredict the oxidation rate compared to the value from DNS. However, when they are compared with each other in the bottom left plot, the sample standard deviation is roughly an order of magnitude smaller. This suggests that the error associated with presuming the form of a beta distribution for $\pz$ is less than the error associated with using the $Z$-uniform soot subfilter PDF to evaluate the filtered moment source term for oxidation.
 
-The validity of presuming the beta distribution is more easily elucidated in the bottom right plot of \cref{fig:subfilter:dns:erroronbetaox}, where the cumulative distribution function (CDF) is plotted for $\fst[M]{1,0}^{ox}$. It can be observed that the distance between the lines representing \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz} is generally much less than the deviation between the latter and the source term from DNS. However, this trend is not valid when the magnitude of the source term is on the order of $10^2$ to $10^3$, where the error of presuming a beta distribution is commensurate with the error from the form of the soot subfilter PDF. Nevertheless, the most important values of the source term are the largest, where the error associated with presuming the form of a beta distribution for $\pz$ is relatively small.  This trend holds true for larger filter widths as well.
+The validity of presuming the beta distribution is more easily elucidated in the bottom right plot of \cref{fig:subfilter:dns:erroronbetaox}, where the cumulative distribution function (CDF) is plotted for $\fst[M]{1,0}^{ox}$. It can be observed that the distance between the lines representing \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz} is generally much less than the deviation between the latter and the source term from DNS at a fixed $\fst[M]{1,0}^{ox}$. However, this trend is not valid when the magnitude of the source term is on the order of $10^2$ to $10^3$, where the error of presuming a beta distribution is commensurate with the error from the form of the soot subfilter PDF. Nevertheless, the most important values of the source term are the largest, where the error associated with presuming the form of a beta distribution for $\pz$ is relatively small.  This trend holds true for larger filter widths as well.
 
 \begin{figure}[ht]
   \centering
@@ -117,9 +117,9 @@ Now that the form of the thermochemical subfilter PDF $\pz$ has been confirmed, 
   \fst[M]{1,0}^{ox} = \frac{\int\limits_0^1 \{ k_{ox}|Z \}H(Z - Z_{st})\pz dZ}{\int\limits_0^1 H(Z - Z_{st})\pz dZ} \cdot \mean{M_{0,1}(x_j)}.
 \end{equation}
 
-This case is plotted against the source term from DNS in \cref{fig:subfilter:dns:zasspcomparison}. In the left-hand plot, it is clear that the filtered moment source term for oxidation evaluated with the proposed model still overpredicts the oxidation rate when compared to the values from DNS. However, when contrasted with the top right plot of \cref{fig:subfilter:dns:erroronbetaox}, the magnitudes of the largest source terms are reduced by nearly half and the standard deviation is decreased. A direct comparison between the source terms using the $Z$-uniform and $Z$-activated soot subfilter PDFs, available in the middle plot of \cref{fig:subfilter:dns:zasspcomparison}, demonstrates that the latter tends to produce smaller oxidation rates than the former. This is to be expected, as the $Z$-activated soot subfilter PDF was formulated to eliminate the unphysical contributions to the oxidation rate that the $Z$-uniform soot subfilter PDF possessed.
+This case is plotted against the source term from DNS in \cref{fig:subfilter:dns:zasspcomparisonox}. In the left-hand plot, it is clear that the filtered moment source term for oxidation evaluated with the proposed model still overpredicts the oxidation rate when compared to the values from DNS. However, when contrasted with the top right plot of \cref{fig:subfilter:dns:erroronbetaox}, the magnitudes of the largest source terms are reduced by nearly half and the standard deviation is decreased. A direct comparison between the source terms using the $Z$-uniform and $Z$-activated soot subfilter PDFs, available in the middle plot of \cref{fig:subfilter:dns:zasspcomparisonox}, demonstrates that the latter tends to produce smaller oxidation rates than the former. This is to be expected, as the $Z$-activated soot subfilter PDF was formulated to eliminate the unphysical contributions to the oxidation rate that the $Z$-uniform soot subfilter PDF possessed.
 
-The CDF in the right-hand plot of \cref{fig:subfilter:dns:zasspcomparison} more clearly reveals the extent of the oxidation source term reduction. It is evident that the proposed model has decreased the largest values of the source term relative to the ``ZUSSP with $\pz$'' case, albeit the effect is not enough to reach the values of the source terms from DNS. Nevertheless, the effectiveness of the proposed model is expected to increase with the filter width due to the expanded presence of lean subfilter regions, which is a consequence of the enlargened variance in mixture fraction. This point will be explored in \cref{sec:subfilter:dns:fw}.
+The CDF in the right-hand plot of \cref{fig:subfilter:dns:zasspcomparisonox} more clearly reveals the extent of the oxidation source term reduction. It is evident that the proposed model has decreased the largest values of the source term relative to the ``ZUSSP with $\pz$'' case, albeit the effect is not enough to reach the values of the source terms from DNS. Nevertheless, the effectiveness of the proposed model is expected to increase with the filter width due to the expanded presence of lean subfilter regions, which is a consequence of the enlargened variance in mixture fraction. This point will be explored in \cref{sec:subfilter:dns:fw}.
 
 \begin{figure}[ht]
   \centering
@@ -136,14 +136,77 @@ The CDF in the right-hand plot of \cref{fig:subfilter:dns:zasspcomparison} more 
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/cdf-ox-ZASSP-r3D-32}
   \end{subfigure}
   \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for \texorpdfstring{$\fst[M]{1,0}^{ox}$}{M1,0ox}]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. In the right-hand plot, the solid red line is the ``DNS'' case, the blue dash-dotted line is the ``ZUSSP with $\pz$'' case, and the magenta dash-dotted line is the ``ZASSP with $\pz$'' case.}
-  \label{fig:subfilter:dns:zasspcomparison}
+  \label{fig:subfilter:dns:zasspcomparisonox}
 \end{figure}
 
 
 \subsection{Surface Growth Source Term}
 \label{sec:subfilter:dns:sg}
 
-Analysis of surface growth source term.
+The $Z$-activated soot subfilter PDF of \cref{sec:subfilter:zassp} has demonstrated the ability to decrease the magnitude of the filtered moment source term for oxidation through the elimination of unphysical contributions at lean mixture fractions. Soot oxidation is certainly the dominant mode in these below-stoichiometric regions, but the filtered moment source terms for surface growth could potentially be nonzero, as extrapolation may suggest in \cref{fig:subfilter:leszussp:zusspleseval}. In near-flame regions, surface growth by the HACA mechanism~\cite{frenklach1985,frenklach1991} can be a prominent mode of soot growth and lead to intensified interactions between soot and gas-phase chemistry. The $Z$-activated soot subfilter PDF was formulated to account for such interactions, so it is worthwhile to analyze its impact on this source term.
+
+Since the overall amount of soot is of interest, this analysis will focus on the surface growth source term contribution to the total volume fraction, $\fst[M]{1,0}^{sg}$. The aptly named surface growth involves reactions on the soot exterior, so the expression for the source term depends on the filtered moment for the total soot surface area $\mean{M}_{0,1}$. As before, the surface growth coefficient $k_{sg}(Z)$ is not present in the DNS database and therefore will be estimated with a density-weighted conditional average
+\begin{equation}\label{eq:subfilter:dns:condksg}
+  \begin{split}
+    k_{sg}(Z) &\approx \{ k_{sg}(x_j)|Z(x_j) \} \\
+    &= \frac{<\rho(x_j)k_{sg}(x_j)|Z(x_j)>}{<\rho(x_j)|Z(x_j)>}.
+  \end{split}
+\end{equation}
+This quantity is plotted in \cref{fig:subfilter:dns:ksg}, where it is evident that the surface growth coefficient at mixture fractions $Z < 0.2$ and $Z > 0.4$ is modeled well by \cref{eq:subfilter:dns:condksg}. However, in a similar observation as before, the large spread of the DNS field in $0.2 < Z < 0.4$ indicates that additional conditional averaging against the scalar dissipation rate or another variable could provide a more accurate approximation.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.4\linewidth]{ch-subfiltermodeling/figures/ksgvsz}
+  \caption[Approximation for Surface Growth Coefficient, \texorpdfstring{$k_{sg}(Z)$}{ksg(Z)}]{Density-weighted, conditionally averaged approximation for the surface growth coefficient $k_{sg}(Z)$. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:kox}.}
+  \label{fig:subfilter:dns:ksg}
+\end{figure}
+
+The thermochemical subfilter PDF $\pz$ needs to be modeled as well, and the form of a beta distribution will be presumed. The error associated with this presumption is quantified through \cref{fig:subfilter:dns:erroronbetasg}, where the bottom left plot shows the standard deviation is nearly half of that associated with the form of the soot subfilter PDF (top two plots). The CDF in the bottom right plot reveals that the distance between the lines representing \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz} (adapted for surface growth) is less than the distance between the latter and the source term from DNS at the smallest and largest values of $\fst[M]{1,0}^{sg}$. Note, however, that the difference between the two errors is not as dramatic as in the CDF from \cref{fig:subfilter:dns:erroronbetaox}. In fact, even at intermediate values of $\fst[M]{1,0}^{sg}$, the error from presuming a beta distribution is comparable to that from the choice of the soot subfilter PDF. Nonetheless, the largest source terms are the most important for this \textit{a priori} analysis as they correspond to heavy growth in the slightly rich, near-flame regions. For these values, the error associated with presuming the form of a beta distribution for $\pz$ is relatively small.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.375\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/rr-lin-Msg3vsMsg6-r3D-32}
+    %\vspace{1ex}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.375\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/rr-lin-Msg4vsMsg6-r3D-32}
+    %\vspace{1ex}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.375\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/rr-lin-Msg4vsMsg3-r3D-32}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.375\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/cdf-sg-ZUSSP-r3D-32}
+  \end{subfigure}
+  \caption[Error Associated with \texorpdfstring{$\pz = \beta(Z;\tf{Z},\tf{Z_V})$}{P(Z) = B(Z;Z,ZV)} for \texorpdfstring{$\fst[M]{1,0}^{sg}$}{M1,0sg}]{Filtered moment source term for surface growth at the same conditions of \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:erroronbetaox}.}
+  \label{fig:subfilter:dns:erroronbetasg}
+\end{figure}
+
+The filtered moment source term for surface growth using the $Z$-activated soot subfilter PDF can now be evaluated using an expression analogous to \cref{eq:subfilter:dns:mzasspwithpz}. This case is plotted against the source term from DNS in \cref{fig:subfilter:dns:zasspcomparisonsg}. When the left-hand image is compared to the top right image of \cref{fig:subfilter:dns:erroronbetasg}, the profiles of the source terms utilizing the $Z$-uniform and $Z$-activated soot subfilter PDFs are nearly identical. This finding indicates that use of the proposed model hardly affects the evaluation of the surface growth source term, which is further confirmed by the middle and right-hand plots of \cref{fig:subfilter:dns:zasspcomparisonsg}. Such a behavior is expected, as the $Z$-activated soot subfilter PDF was formulated to eliminate any unphysical contributions from regions of lean mixture fraction. However, as shown in \cref{fig:subfilter:dns:ksg}, the surface growth coefficient in those regions is negligible. Almost no unphysical contributions exist, so the source term evaluated with the proposed model and the $Z$-uniform soot subfilter PDF should be very similar.
+%In the CDF plot of \cref{fig:subfilter:dns:zasspcomparisonsg}, it is also interesting to note that both soot subfilter PDFs tend to overpredict the largest surface growth source terms and underpredict the smallest when compared to the values from DNS.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/rr-lin-Msg5vsMsg6-r3D-32}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/rr-lin-Msg5vsMsg4-r3D-32}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/cdf-sg-ZASSP-r3D-32}
+  \end{subfigure}
+  \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for \texorpdfstring{$\fst[M]{1,0}^{sg}$}{M1,0sg}]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}.}
+  \label{fig:subfilter:dns:zasspcomparisonsg}
+\end{figure}
 
 
 \subsection{Effects of Filter Width}
