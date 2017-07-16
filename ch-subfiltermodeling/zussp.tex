@@ -18,7 +18,7 @@ The soot subfilter PDF must be able to capture this spatial inhomogeneity caused
 \begin{equation}\label{eq:subfilter:zussp:dd}
   P(\mc{M}_j) = \omega\delta(\mc{M}_j) + (1 - \omega)\delta(\mc{M}_j - \mc{M}_j^*),
 \end{equation}
-where $\mc{M}_j$ is the state vector of soot scalars, $\omega$ is the subfilter intermittency, and $\mc{M}_j^*$ is formulated to recover the filtered values of the soot scalars $\mean{\mc{M}}_j$ upon integration against the PDF. The subfilter intermittency is interpreted as the probability of not finding soot within an LES filter width, so it is expected to be closer to unity than zero due to the high spatial intermittency of soot. It is acquired from one second-order moment of a soot scalar:
+where $\mc{M}_j$ is the state vector of soot scalars, $\omega$ is the subfilter intermittency, and $\mc{M}_j^*$ is formulated to recover the filtered values of the soot scalars $\mean{\mc{M}}_j$ upon integration against the PDF. For the remainder of this work, \cref{eq:subfilter:zussp:dd} shall be referred to as the $Z$-uniform soot subfilter PDF. The subfilter intermittency is interpreted as the probability of not finding soot within an LES filter width, so it is expected to be closer to unity than zero due to the high spatial intermittency of soot. It is acquired from one second-order moment of a soot scalar:
 \begin{equation}\label{eq:subfilter:zussp:omega}
   \omega = 1 - \frac{{\mean{M}_{x,y}}^2}{\mean{{M_{x,y}}^2}},
 \end{equation}
