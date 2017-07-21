@@ -1,8 +1,16 @@
 \chapter{Effect of Transport on Soot Evolution\label{ch:transport}}
 
-Summary: Main point of chapter is to show that existing transport models do not properly account for the presence of soot. As a result, a strain sensitive transport model is developed.
+The lifetime of soot is governed by the balance between growth and oxidation. Nucleation from collisions between PAH dimers~\cite{blanquart2009,schuetz2002,frenklach1991,wang2011}, condensation of PAH dimers on existing soot particles~\cite{blanquart2009,hmom2009}, and surface growth through the HACA surface reaction mechanism~\cite{frenklach1985,frenklach1991} are processes that increase soot mass by extracting species from the gas-phase. Conversely, oxidation by \ce{OH} and \ce{O2} removes carbon from particles~\cite{stanmore2001,neoh1981,kazakov1995} and can lead to their fragmentation and destruction~\cite{neoh1984,mueller2011}. Clearly, the dynamics of soot is governed by species with a broad range of chemical timescales and molecular weights. Therefore, accurately capturing interactions with gas-phase species is crucial when developing predictive models for soot evolution in LES of turbulent nonpremixed combustion.
 
-Include a brief introduction explaining why accurately capturing the transport of gas-phase species is important for developing predictive models for soot evolution in LES (growth and oxixidation processes).
+In \cref{ch:lesmodels}, the modeling foundation for LES was established. In particular, the classical nonpremixed flamelet equations for species and temperature~\cite{peters1984} were presented in \cref{sec:lesmodels:combust:flamelet} with modifications accounting for the formation of soot and radiative thermal losses. These equations were derived under the assumption that the species' effective Lewis numbers are unity. This assumption is based on the reasoning that turbulence mixes indiscriminately at sufficiently large Reynolds number~\cite{pitsch19981057}.
+
+%% These equations were derived by transforming the physical space coordinate system of \cref{eq:lesmodels:combust:flamelet:consy,eq:lesmodels:combust:flamelet:const} to a mixture-fraction-based coordinate system. The latter conservation equations used Fick's law to evaluate the diffusion velocity, so all species were assumed to have the same constant diffusion coefficient $D$. A further simplication was made by selecting $D$ such that the species' effective Lewis numbers are unity, for it is often assumed that turbulence mixes all species indiscriminately at sufficiently high Reynolds numbers~\cite{pitsch19981057}.
+
+However, DNS studies~\cite{bisetti2012,attili2014} have suggested that this assumption may be inappropriate for PAH, which are very sensitive to the local scalar dissipation rate due to their slow formation chemistry. These species are confined to spatially intermittent regions of low scalar dissipation rate that are on the order of the Kolmogorov scale or smaller~\cite{vaishnavi2008}. At such scales, transport is solely dictated by molecular diffusion. Therefore, 
+
+%% Summary: Main point of chapter is to show that existing transport models do not properly account for the presence of soot. As a result, a strain sensitive transport model is developed.
+
+%% Include a brief introduction explaining why accurately capturing the transport of gas-phase species is important for developing predictive models for soot evolution in LES (growth and oxixidation processes).
 
 % include other files for sections of this chapter. These use the 'input' command since each section within a chapter should not start a new page.
 % If you want to swap the order of sections, it is as simple as reversing the order you include them. 

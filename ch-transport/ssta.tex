@@ -9,6 +9,25 @@ Details on proposed strain-sensitive transport approach.
 
 Introduce definitions of strain-sensitivity parameter as well as effective species Lewis number.
 
+%% \begin{equation}\label{eq:transport:ssta:framework:flamelety}
+%%   \begin{split}
+%%     \rho\pder[Y_k]{\tau} &= \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD} \\
+%%     &- \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z},
+%%   \end{split}
+%% \end{equation}
+
+\begin{equation}\label{eq:transport:ssta:framework:flamelety}
+  \rho\pder[Y_k]{\tau} = \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD} - \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z},
+\end{equation}
+
+\begin{equation}\label{eq:transport:ssta:framework:flamelett}
+  \begin{split}
+    \rho c_p \pder[T]{\tau} &= \frac{\rho c_p \chi}{2}\sder[T]{Z} + \frac{\rho\chi}{2}\pder[c_p]{Z}\pder[T]{Z} - \sum\limits_{k} h_k\dot{m}_k \\
+    &+ \sum\limits_{k} \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\left( \pder[Y_k]{Z} + \frac{Y_k}{W}\pder[W]{Z} \right)(c_p - c_{p,k})\pder[T]{Z} + \dot{q}_{\text{RAD}} \\
+    &+ \dot{H} + c_p(\dot{\rho}Z - \dot{m}_Z)\pder[T]{Z},
+  \end{split}
+\end{equation}
+
 
 \subsection{\textit{A Priori} Analysis}
 \label{sec:transport:ssta:dns}
