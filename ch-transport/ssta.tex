@@ -1,25 +1,33 @@
 \section{Strain-Sensitive Transport Approach}
 \label{sec:transport:ssta}
 
-Details on proposed strain-sensitive transport approach.
-
-
 \subsection{Model Development}
 \label{sec:transport:ssta:framework}
 
-Introduce definitions of strain-sensitivity parameter as well as effective species Lewis number.
-
-%% \begin{equation}\label{eq:transport:ssta:framework:flamelety}
-%%   \begin{split}
-%%     \rho\pder[Y_k]{\tau} &= \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD} \\
-%%     &- \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z},
-%%   \end{split}
-%% \end{equation}
-
-\begin{equation}\label{eq:transport:ssta:framework:flamelety}
-  \rho\pder[Y_k]{\tau} = \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD} - \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z},
+Using the nonpremixed flamelet framework provided by \cref{eq:transport:overview:lei:flamelety,eq:transport:overview:lei:flamelett}, the proposed model applies molecular transport to particular species rather than to all species within regions of a certain Reynolds number. Selection of these species is through the strain-sensitivity parameter
+\begin{equation}\label{eq:transport:ssta:framework:ssp}
+  \zeta_k \equiv \frac{\rho\chi}{\dot{m}_k^{+}},
 \end{equation}
+where $\dot{m}_k^{+}$ is the chemical production rate of species $k$. When $\zeta_k > 1$, the rate of local mixing is greater than the formation chemistry rate (\textit{i.e.} the chemistry is slow). Species $k$ is then identified as being strain-sensitive and is confined to scales on the order of Kolmogorov or smaller, where molecular transport is dominant. Conversely, when $\zeta_k < 1$, the formation chemistry is fast, and the effective diffusivity of species $k$ is governed by the turbulent diffusivity. In this case, the length scales are now comparable to those of fuel-oxidizer mixing (such as for major species).
 
+The strain-sensitivity parameter is shown for a selection of gas-phase species relevant to soot in \cref{fig:transport:ssta:framework:sspc7h16}. This result reveals that $\zeta_{\text{A2}} > 1$ for any value of mixture fraction, indicating that molecular differential diffusion for gas-phase naphthalene and larger PAH is important. Contrarily, the strain-sensitivity parameters for acetylene, hydroxyl, and hydrogen are less than unity at slightly rich conditions, indicating that turbulent transport is dominant. Such a finding agrees with \cref{fig:transport:overview:lei:a2vsz,fig:transport:overview:lei:tvsz}, where differential diffusion is shown to be relevant for naphthalene but not for the other three species. At this stage in model development, the minimum value of $\zeta_k$ is used to determine whether or not the species is strain-sensitive. This value provides the most conservative estimate for the species for which differential diffusion is important.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.43\linewidth]{ch-transport/figures/ZETAvsZ-C7H16-chi10}
+  \caption[Strain-Sensitivity Parameter \texorpdfstring{$\zeta_k$}{Zk} for Various Species Within a \ce{C7H16}/\ce{N2} Mixture]{Strain-sensitivity parameter calculated from nonpremixed flamelet solutions for various species at $\chi_{st} = 10$ s$^{-1}$. The nitrogen-diluted, \textit{n}-heptane fuel mixture is the same as in \cref{fig:subfilter:zussp:chisensitivity}. The red line is for A2, the black line is for \ce{C2H2}, the blue line is for \ce{OH}, and the cyan line is for \ce{H}. The vertical black dashed line indicates the stoichiometric mixture.}
+  \label{fig:transport:ssta:framework:sspc7h16}
+\end{figure}
+
+A new definition of the effective species Lewis number $\check{Le}_k$ is required that depends on $\zeta_k$:
+\begin{equation}\label{eq:transport:ssta:framework:lezetai}
+  \check{Le}_k(\zeta_k) = \frac{Le_k}{Le_k + H(\min(\zeta_k) - 1)\cdot (1 - Le_k)},
+\end{equation}
+where $H(\cdot)$ is the Heaviside function. The flamelet equations for species and temperature become
+\begin{equation}\label{eq:transport:ssta:framework:flamelety}
+  \rho\pder[Y_k]{\tau} = \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 \check{Le}_k(\zeta_k)}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD} - \dot{\rho}Y_k + (\dot{\rho}Z - \dot{m}_Z)\pder[Y_k]{Z}
+\end{equation}
+and
 \begin{equation}\label{eq:transport:ssta:framework:flamelett}
   \begin{split}
     \rho c_p \pder[T]{\tau} &= \frac{\rho c_p \chi}{2}\sder[T]{Z} + \frac{\rho\chi}{2}\pder[c_p]{Z}\pder[T]{Z} - \sum\limits_{k} h_k\dot{m}_k \\
@@ -27,12 +35,56 @@ Introduce definitions of strain-sensitivity parameter as well as effective speci
     &+ \dot{H} + c_p(\dot{\rho}Z - \dot{m}_Z)\pder[T]{Z},
   \end{split}
 \end{equation}
+respectively. The last two terms of \cref{eq:transport:ssta:framework:flamelety} and the terms on the third line of \cref{eq:transport:ssta:framework:flamelett} are the same as those in \cref{eq:lesmodels:combust:flamelet:flamelety,eq:lesmodels:combust:flamelet:flamelett} to account for the removal of PAH from the gas-phase during nucleation and condensation. This form is similar to that of Wang~\cite{wang2016}, so a Reynolds number dependence could also be added to the model in future work.
 
 
 \subsection{\textit{A Priori} Analysis}
 \label{sec:transport:ssta:dns}
 
-Compare flamelet calculations of strain-sensitivity parameter to DNS database.
+Flamelet solutions using the strain-sensitive transport, detailed transport, and unity Lewis number transport models are obtained by evaluating all approaches at the same stoichiometric scalar dissipation rate for the nitrogen-diluted, \textit{n}-heptane mixture from \cref{sec:subfilter:dns}. These profiles are plotted as a function of the Bilger mixture fraction~\cite{bilger1989} in \cref{fig:transport:ssta:dns:chi}.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.43\linewidth]{ch-transport/figures/chivsZBilger-C7H16-chi_st20}
+  \caption[Scalar Dissipation Rate for Various Transport Approaches Within a \ce{C7H16}/\ce{N2} Mixture]{Scalar dissipation rates as a function of the Bilger mixture fraction~\cite{bilger1989}, calculated from nonpremixed flamelet solutions at $\chi_{st} = 20$ s$^{-1}$. The nitrogen-diluted, \textit{n}-heptane fuel mixture is the same as in \cref{fig:subfilter:zussp:chisensitivity}. The solid line is for transport with unity Lewis number, the dash-dotted line is for detailed transport, and the double-dashed line is for strain-sensitive transport. The vertical black dashed line indicates the stoichiometric mixture.}
+  \label{fig:transport:ssta:dns:chi}
+\end{figure}
+
+%% The flame temperature and the mass fractions of acetylene and naphthalene are also plotted against the Bilger mixture fraction and are provided in \cref{fig:transport:ssta:dns:tc2h2a2vszbilger} for these transport approaches. In the plot for flame temperature, the profile of the proposed model nearly matches that of the unity Lewis number approach, replicating the trend from \cref{fig:transport:overview:lei:tvsz}. This behavior is expected, for the species that participate in the main heat-releasing chemistry have been modeled with unity Lewis numbers. On the other hand, the peak of the detailed transport approach is lower than those of the latter models. This phenomena is due to the high diffusivity of molecular hydrogen, which ``flattens'' out the temperature profile in mixture fraction space. Note that the detailed transport model is not appropriate in the highly turbulent regions of a nonpremixed jet flame.
+
+%% \begin{figure}[ht]
+%%   \centering
+%%   \begin{subfigure}[b]{0.33\linewidth}
+%%     \includegraphics[width=\linewidth]{ch-transport/figures/TvsZBilger-C7H16-chi_st20}
+%%   \end{subfigure}%%
+%%   \begin{subfigure}[b]{0.33\linewidth}
+%%     \includegraphics[width=\linewidth]{ch-transport/figures/YC2H2vsZBilger-C7H16-chi_st20}
+%%   \end{subfigure}%%
+%%   \begin{subfigure}[b]{0.33\linewidth}
+%%     \includegraphics[width=\linewidth]{ch-transport/figures/YA2vsZBilger-C7H16-chi_st20}
+%%   \end{subfigure}
+%%   \caption[\texorpdfstring{$T$}{T}, \texorpdfstring{$Y_{\ce{C2H2}}$}{YC2H2}, and \texorpdfstring{$Y_{\text{A2}}$}{YA2} for Various Transport Approaches Within a \ce{C7H16}/\ce{N2} Mixture]{Mass fractions of acetylene and naphthalene and flame temperature as a function of the Bilger mixture fraction~\cite{bilger1989}, calculated from nonpremixed flamelet solutions at $\chi_{st} = 20$ s$^{-1}$. The nitrogen-diluted, \textit{n}-heptane fuel mixture is the same as in \cref{fig:subfilter:zussp:chisensitivity}. All lines are defined in \cref{fig:transport:ssta:dns:chi}.}
+%%   \label{fig:transport:ssta:dns:tc2h2a2vszbilger}
+%% \end{figure}
+
+The flame temperature and the mass fractions of acetylene and naphthalene are provided in \cref{fig:transport:ssta:dns:tc2h2a2vsz} for these transport approaches. In the plot for flame temperature, the profile of the proposed model nearly matches that of the unity Lewis number approach, replicating the trend from \cref{fig:transport:overview:lei:tvsz}. This behavior is expected, for the species that participate in the main heat-releasing chemistry have been modeled with unity Lewis numbers. On the other hand, the peak of the detailed transport approach is lower than those of the latter models. This phenomena is due to the high diffusivity of molecular hydrogen, which ``flattens'' out the temperature profile in mixture fraction space. The rich-shifting of the peak is a result of \textit{n}-heptane's large Lewis number, which contributes to a convective velocity towards richer mixture fractions that is encapsulated by $V_k^{DD}$ in \cref{eq:transport:ssta:framework:flamelety}. Note that the detailed transport model is not appropriate in the highly turbulent regions of a nonpremixed jet flame.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.33\linewidth}
+    \includegraphics[width=\linewidth]{ch-transport/figures/TvsZ-C7H16-chi_st20}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.33\linewidth}
+    \includegraphics[width=\linewidth]{ch-transport/figures/YC2H2vsZ-C7H16-chi_st20}
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.33\linewidth}
+    \includegraphics[width=\linewidth]{ch-transport/figures/YA2vsZ-C7H16-chi_st20}
+  \end{subfigure}
+  \caption[\texorpdfstring{$T$}{T}, \texorpdfstring{$Y_{\ce{C2H2}}$}{YC2H2}, and \texorpdfstring{$Y_{\text{A2}}$}{YA2} for Various Transport Approaches Within a \ce{C7H16}/\ce{N2} Mixture]{Mass fractions of acetylene and naphthalene and flame temperature as a function of mixture fraction, calculated from nonpremixed flamelet solutions at $\chi_{st} = 20$ s$^{-1}$. The nitrogen-diluted, \textit{n}-heptane fuel mixture is the same as in \cref{fig:subfilter:zussp:chisensitivity}. All lines are defined in \cref{fig:transport:ssta:dns:chi}.}
+  \label{fig:transport:ssta:dns:tc2h2a2vsz}
+\end{figure}
+
+The acetylene and naphthalene mass fractions are available in the middle and right-hand plots of \cref{fig:transport:ssta:dns:tc2h2a2vsz}, respectively. Acetylene was identified as having a fast chemical production rate in \cref{fig:transport:ssta:framework:sspc7h16}, so the profile from the proposed model closely follows the flamelet solution with unity Lewis number. Conversely, naphthalene was classified as being strain-sensitive. Note, in particular, that while naphthalene is significantly increased with the proposed model compared to unity Lewis numbers, it is still smaller than with full detailed transport. Overall, the strain-sensitive transport approach captures the trends that are observed in \cref{fig:transport:overview:lei:a2vsz}. 
 
 
 \subsection{Strain-Sensitivity Parameter Dependencies}
