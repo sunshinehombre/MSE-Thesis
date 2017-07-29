@@ -1,6 +1,6 @@
 \chapter{Soot-Chemistry-Turbulence Interactions\label{ch:subfilter}}
 
-LES is a technique where large-scale, unsteady turbulent motions are computed explicitly while small-scale motions are modeled. The separation of scales is achieved through filtering the velocity and scalar fields (generically represented by $Q(x_j,t)$) to decompose them into the sum of a resolved component $\mean{Q}(x_j,t)$ and a subfilter-scale component $q'(x_j,t)$. A general filtering operation can be expressed as
+LES is a technique where large-scale, unsteady turbulent motions are computed explicitly while small-scale motions are modeled. The separation of scales is achieved through filtering the velocity and scalar fields (generically represented by $Q(x_j,t)$) to decompose them into the sum of a resolved component $\mean{Q}(x_j,t)$ and a subfilter-scale component $Q(x_j,t)-\mean{Q}(x_j,t)$. A general filtering operation can be expressed as
 \begin{equation}\label{eq:subfilter:filter}
   \mean{Q}(x_j,t) = \int F(r_j,x_j)Q(x_j - r_j, t)dr_j,
 \end{equation}
