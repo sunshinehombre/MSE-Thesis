@@ -1,0 +1,54 @@
+\section{Joint Subfilter PDF}
+\label{sec:subfilter:joint}
+
+The form of the latter has been approximated previously through consideration of the dynamics of soot. In DNS studies of a nitrogen-diluted, \textit{n}-heptane/air turbulent nonpremixed planar jet flame, PAH were found to have much slower formation chemistry compared to the main heat-releasing chemistry, which is represented by the thermochemical variables $\xi$~\cite{attili2014,bisetti2012}. PAH are soot precursors, so soot itself is characterized by even longer timescales. Consequently, Mueller and Pitsch~\cite{subfilterpdf2011} proposed that the timescales of the soot scalars and thermochemical variables are disparate enough such that the former should not depend on the latter. This argument was used to simplify the subfilter PDF of the soot scalars conditioned on $\xi$ to a marginal PDF of only the soot scalars. The expression for the spatially Favre filtered functions of \cref{eq:lesmodels:presumedpdf:filteredfuncs} then becomes
+\begin{equation}\label{eq:lesmodels:presumedpdf:separated}
+  \tf{\phi}(\xi,\mc{M}_j) = \iint \mc{J}(\xi,\mc{M}_j)\tf{P}(\xi)P(\mc{M}_j) d\xi d\mc{M}_j.
+\end{equation}
+By replacing the functional relation $\mc{J}$ with \cref{eq:lesmodels:combust:producteos}, \cref{eq:lesmodels:presumedpdf:separated} can be further simplified to
+\begin{equation}\label{eq:lesmodels:presumedpdf:indep}
+  \tf{\phi}(Z,C,H,\mc{M}_j) = \iiint \mc{G}(Z,C,H)\tf{P}(Z,C,H) dHdCdZ \times \int \mc{K}(\mc{M}_j)P(\mc{M}_j) d\mc{M}_j,
+\end{equation}
+where the thermochemical and soot components are now completely independent. Mueller and Pitsch noted that the timescale separation argument could be violated during the oxidation of soot, when there are enhanced interactions between soot and the major gas-phase chemistry, and during surface growth near the flame. These situations will be examined more closely in \cref{ch:subfilter}.
+
+The challenging task of modeling the joint subfilter PDF was then reduced to developing models for the thermochemical subfilter PDF and the soot subfilter PDF. Discussion of the latter will be deferred to \cref{ch:subfilter}. The thermochemical subfilter PDF for the RFPV approach is obtained from Ihme and Pitsch~\cite{ihme2008}. First, two quantities are introduced to uniquely identify each flamelet solution in the database of thermochemical states: $\Lambda = C(Z_{st})$ and $\Phi = H(Z_{st})$. The thermochemical equation of state \cref{eq:lesmodels:combust:rfpv} then becomes
+\begin{equation}\label{eq:lesmodels:presumedpdf:eos}
+  \xi = \mc{G}(Z, C, H) = \mg(Z, \Lambda, \Phi).
+\end{equation}
+The spatially Favre filtered thermochemical functions are given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredeos}
+  \begin{split}
+    \tf{\xi} &= \iiint \mc{G}(Z,C,H)\tf{P}(Z,C,H) dHdCdZ \\
+    &= \iiint \mg(Z,\Lambda,\Phi)\tf{P}(Z,\Lambda,\Phi) d\Phi d\Lambda dZ.
+  \end{split}
+\end{equation}
+Since $Z$, $\Lambda$, and $\Phi$ are defined to be independent, the thermochemical subfilter PDF can be expressed as the product of three marginal distributions:
+\begin{equation}\label{eq:lesmodels:presumedpdf:trimarg}
+  \tf{P}(Z,\Lambda,\Phi) = \beta(Z;\tf{Z},\tf{Z_{\text{V}}})\delta(\Lambda - \tf{\Lambda})\delta(\Phi - \tf{\Phi}),
+\end{equation}
+where the mixture fraction has been modeled with a beta distribution~\cite{cook1994,jimenez1997,wall2000}, the subfilter mixture fraction variance is defined as $\tf{Z_{\text{V}}} = \tf{Z^2} - \tf{Z}^2$, and $\Lambda$ and $\Phi$ are modeled with delta distributions~\cite{ihme2008}. Assuming \cref{eq:lesmodels:combust:rfpv} is unique, a bijective inversion may be used to conveniently reexpress a dependence on $\tf{\Lambda}$ and $\tf{\Phi}$ as a dependence on $\tf{C}$ and $\tf{H}$. In practical implementation, each flamelet solution in the database is convoluted with the beta distribution for the mixture fraction and tabulated as a function of the filtered mixture fraction, subfilter mixture fraction variance, filtered progress variable, and filtered heat loss parameter.
+
+The transport equation for the filtered mixture fraction is derived by spatially filtering \cref{eq:lesmodels:combust:map:z} and is given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredz}
+  \ftrder{\tf{Z}} = \dsff[\tf{Z}]{\tf{u_j Z}} + \fdt[Z]{\tf{Z}} + \fst[m]{Z},
+\end{equation}
+where the first and last terms on the right-hand side are unclosed. The former is the subfilter flux, which can be modeled with a dynamic procedure~\cite{germano1991,lilly1992,moin1991}. The filtered source term is closed through the presumed subfilter PDF given in \cref{eq:lesmodels:presumedpdf:trimarg}. Similarly, the transport equations for the filtered progress variable and filtered heat loss parameter are given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredc}
+  \ftrder{\tf{C}} = \dsff[\tf{C}]{\tf{u_j C}} + \fdt[C]{\tf{C}} + \mean{\left( \frac{\dot{m}_{C_{\text{conv}}}}{C^*} \right)}
+\end{equation}
+and
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredh}
+  \ftrder{\tf{H}} = \dsff[\tf{H}]{\tf{u_j H}} + \fdt[H]{\tf{H}} + \mean{\dot{\rho}H} + \fst[q]{\text{RAD}},
+\end{equation}
+respectively. The remaining database parameter is the subfilter mixture fraction variance, which will be procured in the manner of Mueller and Pitsch~\cite{mueller2012}. Rather than solving for the subfilter variance directly, a transport equation for the filtered square of the mixture fraction is evaluated:
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredzsq}
+  \begin{split}
+    \ftrder{\tf{Z^2}} &= \dsff[\tf{Z^2}]{\tf{u_j Z^2}} + \fdt[Z]{\tf{Z^2}} \\
+    &- 2\mean{\rho}\tf{D}_Z \pder[\tf{Z}]{x_j}\pder[\tf{Z}]{x_j} - \mean{\rho}\tf{\chi}_{\text{sgs}} - \mean{\dot{\rho}Z^2} + 2\mean{\dot{m}_Z Z},
+  \end{split}
+\end{equation}
+where $\tf{\chi}_{\text{sgs}}$ is the subfilter scalar dissipation rate. This quantity is estimated with a linear relaxation model~\cite{ihme200890}:
+\begin{equation}\label{eq:lesmodels:presumedpdf:chisgs}
+  \tf{\chi}_{\text{sgs}} = \text{C}_{\chi}\frac{\nu_t}{\Delta^2}\tf{Z_{\text{V}}},
+\end{equation}
+where $\text{C}_{\chi} \approx 20$, the mechanical timescale is determined from the eddy viscosity $\nu_t$ and filter width $\Delta$, and $\tf{Z_{\text{V}}}$ is the subfilter mixture fraction variance as defined previously.

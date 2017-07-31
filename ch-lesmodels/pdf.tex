@@ -1,23 +1,21 @@
-\section{Presumed PDF Approach}
+\section{Small-Scale Quantities}
 \label{sec:lesmodels:presumedpdf}
 
 LES is a technique where large-scale, unsteady turbulent motions are computed explicitly while small-scale motions are modeled. The separation of scales is achieved through filtering the velocity and scalar fields (generically represented by $Q(x_j,t)$) to decompose them into the sum of a resolved component $\mean{Q}(x_j,t)$ and a subfilter-scale component $Q(x_j,t)-\mean{Q}(x_j,t)$. A general filtering operation can be expressed as
-\begin{equation}\label{eq:subfilter:filter}
+\begin{equation}\label{eq:lesmodels:presumedpdf:filter}
   \mean{Q}(x_j,t) = \int F(r_j,x_j)Q(x_j - r_j, t)dr_j,
 \end{equation}
 where integration is over the entire domain. The filter kernel $F(r_j,x_j)$ satisfies the normalization condition
-\begin{equation}\label{eq:subfilter:kernel}
+\begin{equation}\label{eq:lesmodels:presumedpdf:kernel}
   \int F(r_j,x_j)dr_j = 1,
 \end{equation}
 and uses cutoff length and time scales to separate unresolved small-scale quantities from $\mean{Q}(x_j,t)$. In combustion, variations in density are non-zero. Therefore, it is convenient to use density-weighted filtering (Favre filtering) in LES of turbulent combustion, where the resolved components are expressed as $\tf{Q}(x_j,t) = \mean{\rho(x_j,t)Q(x_j,t)}/\mean{\rho(x_j,t)}$.
 
-When these filtering operations are applied to the conservation equations for mass, momentum, and energy or scalar transport equations, subfilter contributions to the chemical source term as well as molecular and turbulent transport terms arise. For instance, the filtered transport equation for a scalar $\phi$ is given by
-\begin{equation}\label{eq:subfilter:scalar}
-  \ftrder{\tf{\phi}} = \pder[]{x_j}\left( \mean{\rho}\tf{D\pder[\phi]{x_j}} \right) + \dsff[\tf{\phi}]{\tf{u_j \phi}} + \fst[m]{\phi},
+When these filtering operations are applied to the conservation equations for mass, momentum, and energy or scalar transport equations, subfilter contributions to the chemical source term as well as molecular and turbulent transport terms arise. For instance, the density-weighted filtered transport equation for a scalar $Q$ is given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:scalar}
+  \ftrder{\tf{Q}} = \pder[]{x_j}\left( \mean{\rho}\tf{D\pder[Q]{x_j}} \right) + \dsff[\tf{Q}]{\tf{u_j Q}} + \fst[m]{Q},
 \end{equation}
-where the first term on the right-hand side contains subfilter contributions to molecular diffusion fluxes, the second term is known as the subfilter scalar flux and contains the effects of turbulent transport, and the third term is the filtered source term. These unclosed terms represent interactions between subfilter-scale quantities and must be modeled. 
-
-LES only resolves the large-scale features of a turbulent flow, so small-scale interactions between soot, turbulence, and combustion chemistry need to be modeled. These subfilter interactions are modeled with a density-weighted joint PDF $\tf{P}$ of the thermochemical and soot variables. Density-weighted filtered (Favre filtered) functions of these quantities are obtained from a convolution of the equation of state with $\tf{P}$:
+where the first term on the right-hand side contains subfilter contributions to molecular diffusion fluxes, the second term is known as the subfilter scalar flux and contains the effects of turbulent transport, and the third term is the filtered source term. These unclosed terms represent small-scale interactions between soot, turbulence, and combustion chemistry. They are modeled with a density-weighted joint PDF $\tf{P}$ of the thermochemical and soot variables. Density-weighted filtered (Favre filtered) functions of these quantities are obtained from a convolution of the equation of state with $\tf{P}$:
 \begin{equation}\label{eq:lesmodels:presumedpdf:filteredfuncs}
   \tf{\phi}(\xi,\mc{M}_j) = \iint \mc{J}(\xi,\mc{M}_j)\tf{P}(\xi,\mc{M}_j) d\xi d\mc{M}_j,
 \end{equation}
@@ -25,10 +23,10 @@ where $\xi$ is the vector of thermochemical variables and $\mc{M}_j$ is the stat
 
 The joint subfilter PDF $\tf{P}$ is unknown and must be modeled using transported PDF or presumed PDF methods. In the transported PDF approach, a transport equation is solved for the subfilter PDF~\cite{pope1985,pope1991}. This equation is high-dimensional, so conventional discretization techniques are computationally intractable. Instead, Lagrangian particle methods are employed, where a set of notional particles that track fluid particles is solved for. The advantage of the class of transported PDF methods is that all local phenomena are naturally described by the subfilter PDF, which provides information about subfilter fluctuations and correlations at a single point. Therefore, chemical source terms do not require additional closure because chemical reactions are one-point phenomena. However, processes such as molecular mixing are dependent on gradients and are inherently two-point, non-local phenomena. Mixing models have been proposed such as the Interaction with Exchange of the Mean (IEM)~\cite{dopazo1974} and Modified Curl~\cite{janicka1979}, where quantities are relaxed to local filtered values to mimic homogenization through diffusion. However, such approaches fail to use information about localness in composition space. More complex mixing models using the concept of the Euclidean minimum spanning tree~\cite{subramaniam1998} or the shadow position~\cite{pope2013} introduce localness in composition space, but still suffer from the large computational cost associated with evolving the Lagrangian particles.
 
-In contrast, presumed PDF methods assume a form of the joint subfilter PDF. Reasoning based on physical insights about subfilter interactions between the scalars and turbulence is utilized to deduce the form of the PDF. Previous works have indicated that using the beta distribution for the mixture fraction and conditional delta distributions for the progress variable and heat loss parameter is a good model for the thermochemical portion of the subfilter PDF when considering passive scalars in a two-feed system~\cite{cook1994,jimenez1997,wall2000,ihme2008}. Ihme \etal~\cite{ihme2005} arrived at the same conclusion with the FPV approach for reactive scalars. Since presumed PDF methods do not rely on mixing models, they generally match or even exceed the performance of transported PDF methods, provided that the form of the PDF is appropriate. Therefore, the presumed PDF approach will be adopted in this work.
+% In contrast, presumed PDF methods assume a form of the joint subfilter PDF. Reasoning based on physical insights about subfilter interactions between the scalars and turbulence is utilized to deduce the form of the PDF. Previous works have indicated that using the beta distribution for the mixture fraction and conditional delta distributions for the progress variable and heat loss parameter is a good model for the thermochemical portion of the subfilter PDF when considering passive scalars in a two-feed system~\cite{cook1994,jimenez1997,wall2000,ihme2008}. Ihme \etal~\cite{ihme2005} arrived at the same conclusion with the FPV approach for reactive scalars. Since presumed PDF methods do not rely on mixing models, they generally match or even exceed the performance of transported PDF methods, provided that the form of the PDF is appropriate. Therefore, the presumed PDF approach will be adopted in this work.
 
-An approximate form of the overall joint subfilter PDF is determined by first decomposing $\tf{P}$ into a thermochemical PDF and a PDF of the soot scalars conditioned on the thermochemical variables. By Bayes' theorem,
+In contrast, presumed PDF methods assume a form of the joint subfilter PDF. Reasoning based on physical insights about subfilter interactions between the scalars and turbulence is utilized to deduce the form of the PDF. Since presumed PDF methods do not rely on mixing models, they generally match or even exceed the performance of transported PDF methods, provided that the form of the PDF is appropriate. Therefore, the presumed PDF approach will be adopted in this work. An approximate form of the overall joint subfilter PDF is determined by first decomposing $\tf{P}$ into a thermochemical PDF and a PDF of the soot scalars conditioned on the thermochemical variables. By Bayes' theorem,
 \begin{equation}\label{eq:lesmodels:presumedpdf:bayes}
   \tf{P}(\xi,\mc{M}_j) = \tf{P}(\xi)P(\mc{M}_j|\xi),
 \end{equation}
-where $\tf{P}(\xi)$ includes a beta distribution for the mixture fraction and $P(\mc{M}_j|\xi)$ is unknown. 
+where $\tf{P}(\xi)$ includes a beta distribution for the mixture fraction and $P(\mc{M}_j|\xi)$ is unknown. Further discussion on the complete forms of $\tf{P}(\xi)$ and $P(\mc{M}_j|\xi)$ will be deferred until \cref{ch:subfilter}.
