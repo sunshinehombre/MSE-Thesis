@@ -1,16 +1,6 @@
 \chapter{Soot-Chemistry-Turbulence Interactions\label{ch:subfilter}}
 
-LES is a technique where large-scale, unsteady turbulent motions are computed explicitly while small-scale motions are modeled. The separation of scales is achieved through filtering the velocity and scalar fields (generically represented by $Q(x_j,t)$) to decompose them into the sum of a resolved component $\mean{Q}(x_j,t)$ and a subfilter-scale component $Q(x_j,t)-\mean{Q}(x_j,t)$. A general filtering operation can be expressed as
-\begin{equation}\label{eq:subfilter:filter}
-  \mean{Q}(x_j,t) = \int F(r_j,x_j)Q(x_j - r_j, t)dr_j,
-\end{equation}
-where integration is over the entire domain. The convolution kernel $F(r_j,x_j)$ satisfies the normalization condition
-\begin{equation}\label{eq:subfilter:kernel}
-  \int F(r_j,x_j)dr_j = 1,
-\end{equation}
-and uses cutoff length and time scales to separate smaller quantities from $\mean{Q}(x_j,t)$. In combustion, large temperature fluctuations motivate the tracking of quantities correlated with density. Therefore, it is convenient to use density-weighted filtering (Favre filtering) in LES of turbulent combustion, where the resolved components are expressed as $\tf{Q}(x_j,t) = \mean{\rho(x_j,t)Q(x_j,t)}/\mean{\rho(x_j,t)}$ and the subfilter-scale components $q''(x_j,t)$ satisfy $\mean{\rho(x_j,t) q''(x_j,t)} = 0$.
-
-When these filtering operations are applied to the conservation equations for mass, momentum, and energy or scalar transport equations, filtered source terms and correlations between ``fluctuating'' quantities arise. These unclosed terms represent interactions between subfilter-scale quantities and must be modeled. In this chapter, two models for interactions between soot, turbulence, and combustion chemistry at subfilter scales are presented. These models are validated in an \textit{a priori} analysis of filtered moment source terms for oxidation and surface growth using the DNS database of Attili \etal~\cite{attili2014}.
+In this chapter, two models for interactions between soot, turbulence, and combustion chemistry at subfilter scales are presented. These models are validated in an \textit{a priori} analysis of filtered moment source terms for oxidation and surface growth using the DNS database of Attili \etal~\cite{attili2014}.
 
 %% Summary: Whole point of the chapter is to show that including a mixture fraction dependence in the soot subfilter model may lead to better predictions of $f_v$.
 

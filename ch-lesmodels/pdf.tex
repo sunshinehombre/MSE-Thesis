@@ -1,6 +1,22 @@
 \section{Presumed PDF Approach}
 \label{sec:lesmodels:presumedpdf}
 
+LES is a technique where large-scale, unsteady turbulent motions are computed explicitly while small-scale motions are modeled. The separation of scales is achieved through filtering the velocity and scalar fields (generically represented by $Q(x_j,t)$) to decompose them into the sum of a resolved component $\mean{Q}(x_j,t)$ and a subfilter-scale component $Q(x_j,t)-\mean{Q}(x_j,t)$. A general filtering operation can be expressed as
+\begin{equation}\label{eq:subfilter:filter}
+  \mean{Q}(x_j,t) = \int F(r_j,x_j)Q(x_j - r_j, t)dr_j,
+\end{equation}
+where integration is over the entire domain. The filter kernel $F(r_j,x_j)$ satisfies the normalization condition
+\begin{equation}\label{eq:subfilter:kernel}
+  \int F(r_j,x_j)dr_j = 1,
+\end{equation}
+and uses cutoff length and time scales to separate unresolved small-scale quantities from $\mean{Q}(x_j,t)$. In combustion, variations in density are non-zero. Therefore, it is convenient to use density-weighted filtering (Favre filtering) in LES of turbulent combustion, where the resolved components are expressed as $\tf{Q}(x_j,t) = \mean{\rho(x_j,t)Q(x_j,t)}/\mean{\rho(x_j,t)}$.
+
+When these filtering operations are applied to the conservation equations for mass, momentum, and energy or scalar transport equations, subfilter contributions to the chemical source term as well as molecular and turbulent transport terms arise. For instance, the filtered transport equation for a scalar $\phi$ is given by
+\begin{equation}\label{eq:subfilter:scalar}
+  \ftrder{\tf{\phi}} = \pder[]{x_j}\left( \mean{\rho}\tf{D\pder[\phi]{x_j}} \right) + \dsff[\tf{\phi}]{\tf{u_j \phi}} + \fst[m]{\phi},
+\end{equation}
+where the first term on the right-hand side contains subfilter contributions to molecular diffusion fluxes, the second term is known as the subfilter scalar flux and contains the effects of turbulent transport, and the third term is the filtered source term. These unclosed terms represent interactions between subfilter-scale quantities and must be modeled. 
+
 LES only resolves the large-scale features of a turbulent flow, so small-scale interactions between soot, turbulence, and combustion chemistry need to be modeled. These subfilter interactions are modeled with a density-weighted joint PDF $\tf{P}$ of the thermochemical and soot variables. Density-weighted filtered (Favre filtered) functions of these quantities are obtained from a convolution of the equation of state with $\tf{P}$:
 \begin{equation}\label{eq:lesmodels:presumedpdf:filteredfuncs}
   \tf{\phi}(\xi,\mc{M}_j) = \iint \mc{J}(\xi,\mc{M}_j)\tf{P}(\xi,\mc{M}_j) d\xi d\mc{M}_j,
