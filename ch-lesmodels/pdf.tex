@@ -30,3 +30,29 @@ In contrast, presumed PDF methods assume a form of the joint subfilter PDF. Reas
   \tf{P}(\xi,\mc{M}_j) = \tf{P}(\xi)P(\mc{M}_j|\xi),
 \end{equation}
 where $\tf{P}(\xi)$ includes a beta distribution for the mixture fraction and $P(\mc{M}_j|\xi)$ is unknown. Further discussion on the complete forms of $\tf{P}(\xi)$ and $P(\mc{M}_j|\xi)$ will be deferred until \cref{ch:subfilter}.
+
+In practical implementation, each flamelet solution in the database is convoluted with the beta distribution for the mixture fraction and tabulated as a function of the filtered mixture fraction, subfilter mixture fraction variance, filtered progress variable, and filtered heat loss parameter. The transport equation for the filtered mixture fraction is derived by spatially filtering \cref{eq:lesmodels:combust:map:z} and is given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredz}
+  \ftrder{\tf{Z}} = \dsff[\tf{Z}]{\tf{u_j Z}} + \fdt[Z]{\tf{Z}} + \fst[m]{Z},
+\end{equation}
+where the first and last terms on the right-hand side are unclosed. The former is the subfilter flux, which can be modeled with a dynamic procedure~\cite{germano1991,lilly1992,moin1991}. The filtered source term is closed through the presumed subfilter PDF given in \cref{eq:lesmodels:presumedpdf:trimarg}. Similarly, the transport equations for the filtered progress variable and filtered heat loss parameter are given by
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredc}
+  \ftrder{\tf{C}} = \dsff[\tf{C}]{\tf{u_j C}} + \fdt[C]{\tf{C}} + \mean{\left( \frac{\dot{m}_{C_{\text{conv}}}}{C^*} \right)}
+\end{equation}
+and
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredh}
+  \ftrder{\tf{H}} = \dsff[\tf{H}]{\tf{u_j H}} + \fdt[H]{\tf{H}} + \mean{\dot{\rho}H} + \fst[q]{\text{RAD}},
+\end{equation}
+respectively. The remaining database parameter is the subfilter mixture fraction variance, which will be procured in the manner of Mueller and Pitsch~\cite{mueller2012}. Rather than solving for the subfilter variance directly, a transport equation for the filtered square of the mixture fraction is evaluated:
+\begin{equation}\label{eq:lesmodels:presumedpdf:filteredzsq}
+  \begin{split}
+    \ftrder{\tf{Z^2}} &= \dsff[\tf{Z^2}]{\tf{u_j Z^2}} + \fdt[Z]{\tf{Z^2}} \\
+    &- 2\mean{\rho}\tf{D}_Z \pder[\tf{Z}]{x_j}\pder[\tf{Z}]{x_j} - \mean{\rho}\tf{\chi}_{\text{sgs}} - \mean{\dot{\rho}Z^2} + 2\mean{\dot{m}_Z Z},
+  \end{split}
+\end{equation}
+where $\tf{\chi}_{\text{sgs}}$ is the subfilter scalar dissipation rate. This quantity is estimated with a linear relaxation model~\cite{ihme200890}:
+\begin{equation}\label{eq:lesmodels:presumedpdf:chisgs}
+  \tf{\chi}_{\text{sgs}} = \text{C}_{\chi}\frac{\nu_t}{\Delta^2}\tf{Z_{\text{V}}},
+\end{equation}
+where $\text{C}_{\chi} \approx 20$, the mechanical timescale is determined from the eddy viscosity $\nu_t$ and filter width $\Delta$, and $\tf{Z_{\text{V}}}$ is the subfilter mixture fraction variance as defined previously.
+
