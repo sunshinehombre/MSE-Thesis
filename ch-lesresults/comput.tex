@@ -1,7 +1,9 @@
 \section{Computational Framework}
 \label{sec:lesresults:comput}
 
-Details on NGA, various FD schemes, type of LES used, etc.
+A brief description of the numerical approach is provided here and will be addressed fully in \cref{ch:lesresults}. Grid filtered LES is achieved through NGA, a low-Mach number flow solver~\cite{desjardins2008}. The computational domain of each flame consists of a structured grid with $192 \times 96 \times 32$ points in the streamwise, radial, and circumferential directions, respectively. This corresponds to a domain with lengths $200D$ in the streamwise direction and $60D$ in the radial direction, where the grid is stretched for both. The flamelet solutions in the database are computed with FlameMaster, a solver for 0D and 1D combustion calculations~\cite{flamemaster}. These solutions utilize the chemical mechanism of Blanquart \etal~\cite{blanquart2009588}, which encompasses the high temperature combustion of fuels from methane to iso-octane and places emphasis on the formation of soot precursors up to cyclopenta[cd]pyrene (\ce{C18H10}). The mechanism of Narayanaswamy \etal~\cite{narayanaswamy2010} is incorporated into the base mechanism to model the high-temperature oxidation of aromatic species.
+
+% Details on NGA, various FD schemes, type of LES used, etc.
 
 
 \subsection{Radiation Model}
