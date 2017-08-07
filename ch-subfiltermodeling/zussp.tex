@@ -28,13 +28,20 @@ where the soot scalars adopt their average values $\mean{\mc{M}}_j$ within an LE
 
 Evaluation of the subfilter intermittency requires values for the filtered moments and a filtered second-order moment. The former are obtained through a transport equation, which is derived by filtering \cref{eq:lesmodels:soot:ndf:momtransport} and incorporating the total velocity of \cref{eq:lesmodels:soot:ndf:totvel}:
 \begin{equation}\label{eq:subfilter:zussp:momtransport}
-  \pder[\mean{M}_{x,y}]{t} + \pder[\tf{u_j^*}\mean{M}_{x,y}]{x_j} = \pder[]{x_j}\left[ \mean{\rho}\tf{u_j^*}\tf{ \left( \frac{M_{x,y}}{\rho} \right)} - \mean{\rho}\tf{u_j^* \left( \frac{M_{x,y}}{\rho}\right)} \right] + \mean{\dot{M}}_{x,y}.
+  \pder[\mean{M}_{x,y}]{t} + \pder[\tf{u_j^*}\mean{M}_{x,y}]{x_j} = \pder[]{x_j}\left[ \mean{\rho}\tf{u_j^*}\tf{ \left( \frac{M_{x,y}}{\rho} \right)} - \mean{\rho}\tf{u_j^* \left( \frac{M_{x,y}}{\rho}\right)} \right] + \fst[M]{x,y}.
 \end{equation}
 The filtered second moment of the total number density in \cref{eq:subfilter:zussp:omega} is also determined by a transport equation
 \begin{equation}\label{eq:subfilter:zussp:secondmomtransport}
   \pder[\mean{{M_{0,0}}^2}]{t} + \pder[\tf{u_j^*}\mean{{M_{0,0}}^2}]{x_j} = \pder[]{x_j}\left[ \mean{\rho}\tf{u_j^*}\tf{\left( \frac{{M_{0,0}}^2}{\rho} \right)} - \mean{\rho}\tf{u_j^* \left( \frac{{M_{0,0}}^2}{\rho} \right)} \right] - \mean{{M_{0,0}}^2 \pder[u_j^*]{x_j}} + 2\mean{M_{0,0}\dot{M}_{0,0}}.
 \end{equation}
-The scalar fluxes in \cref{eq:subfilter:zussp:momtransport} and \cref{eq:subfilter:zussp:secondmomtransport} can be modeled with a dynamic procedure as previously discussed, and the correlation between the number density and the number density source term in \cref{eq:subfilter:zussp:secondmomtransport} is closed with the presumed PDF approach. The remaining unclosed term in \cref{eq:subfilter:zussp:secondmomtransport} is the correlation between the second moment and the divergence of the total velocity. Following Mueller and Pitsch~\cite{subfilterpdf2011}, this term will be closed by neglecting the correlation between the two quantities:
+The scalar fluxes in \cref{eq:subfilter:zussp:momtransport} and \cref{eq:subfilter:zussp:secondmomtransport} can be modeled with a dynamic procedure as previously discussed, and the correlation between the number density and the number density source term in \cref{eq:subfilter:zussp:secondmomtransport} is closed with the presumed PDF approach. The source term of \cref{eq:subfilter:zussp:momtransport} is also closed with the presumed PDF approach. Its form, shown for oxidation, can be expressed as
+\begin{equation}\label{eq:subfilter:leszussp:ox}
+  \begin{split}
+    \mean{\dot{M}}_{x,y}^{ox} &= \iint k_{ox}(Z)\mc{M}_j P(\mc{M}_j)\pz dZ d\mc{M}_j \\
+    &= \hat{k}_{ox}\mean{M}_j,
+  \end{split}
+\end{equation}
+where $k_{ox}(Z)$ is the oxidation coefficient, $\pz$ is modeled with a beta distribution as in \cref{eq:lesmodels:presumedpdf:trimarg}, and the soot subfilter PDF $P(\mc{M}_j)$ is provided in \cref{eq:subfilter:zussp:dd}. Contributions from the thermochemical and soot variables are made distinct in the second line, where $\hat{k}_{ox} = \int k_{ox}(Z)\pz dZ$ and $\mean{M}_j = \int \mc{M}_j P(\mc{M}_j)d\mc{M}_j$. The remaining unclosed term in \cref{eq:subfilter:zussp:secondmomtransport} is the correlation between the second moment and the divergence of the total velocity. Following Mueller and Pitsch~\cite{subfilterpdf2011}, this term will be closed by neglecting the correlation between the two quantities:
 \begin{equation}\label{eq:subfilter:zussp:nocorrelation}
   \mean{{M_{0,0}}^2 \pder[u_j^*]{x_j}} \approx \mean{{M_{0,0}}^2}\pder[\tf{u_j^*}]{x_j}.
 \end{equation}
