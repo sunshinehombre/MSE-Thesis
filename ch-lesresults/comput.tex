@@ -1,18 +1,50 @@
 \section{Computational Framework}
 \label{sec:lesresults:comput}
 
-A brief description of the numerical approach is provided here and will be addressed fully in \cref{ch:lesresults}. Grid filtered LES is achieved through NGA, a low-Mach number flow solver~\cite{desjardins2008}. The computational domain of each flame consists of a structured grid with $192 \times 96 \times 32$ points in the streamwise, radial, and circumferential directions, respectively. This corresponds to a domain with lengths $200D$ in the streamwise direction and $60D$ in the radial direction, where the grid is stretched for both. The flamelet solutions in the database are computed with FlameMaster, a solver for 0D and 1D combustion calculations~\cite{flamemaster}. These solutions utilize the chemical mechanism of Blanquart \etal~\cite{blanquart2009588}, which encompasses the high temperature combustion of fuels from methane to iso-octane and places emphasis on the formation of soot precursors up to cyclopenta[cd]pyrene (\ce{C18H10}). The mechanism of Narayanaswamy \etal~\cite{narayanaswamy2010} is incorporated into the base mechanism to model the high-temperature oxidation of aromatic species.
+Grid filtered LES is achieved through NGA, a finite difference code for low-Mach number turbulent reacting flows~\cite{desjardins2008}. The conservation equations for mass and momentum are spatially discretized with second order, central difference operators, and the transport equations for the scalars are spatially discretized with the third order, Weighted Essentially Non-Oscillatory Scheme~\cite{jiang1996}. All subfilter stresses and fluxes are closed with the dynamic procedure~\cite{germano1991,lilly1992,moin1991} with Lagrangian averaging over flow path lines~\cite{meneveau1996,reveillon1996}.
 
-% Details on NGA, various FD schemes, type of LES used, etc.
+The computational domain of each flame consists of a structured grid with $192 \times 96 \times 32$ points in the streamwise, radial, and circumferential directions, respectively. This corresponds to a domain with lengths $200D$ in the streamwise direction and $60D$ in the radial direction, where the grid is stretched for both. The boundary conditions for each domain require an additional simulation of a three-dimensional, fully developed turbulent periodic pipe flow with an average streamwise velocity that matches the corresponding mean jet exit velocity for each case of \cref{tab:subfilter:leszussp:ehn}. The data from these simulations become the inflow conditions within the burner, which is modeled with a single grid point in the streamwise direction. The secondary air coflow is prescribed as a bulk flow of magnitude 1.1 m/s. The downstream exit of the domain is modeled with a convective outflow that globally conserves mass~\cite{akselvoll1996}, and the outer edge of the domain in the radial direction is modeled with a slip wall.
+
+Each computational domain is decomposed with 128 processors. The specific computational cost of each LES varies with the combination of models used. The latter and other simulation details are presented in \cref{tab:lesresults:comput:details}. NEED TO FINISH THIS TABLE.
+
+\begin{table}[htbp]
+\centering
+\caption[LES Computational Details]{LES Computational Details}
+\label{tab:lesresults:comput:details}
+\begin{tabular}{p{0.35\textwidth} p{0.1\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}}
+\toprule
+\textbf{Flame} & & \bm{$1/\tau|_{H}$} & \bm{$1/\tau|_{M}$} & \bm{$1/\tau|_{L}$} \\
+\midrule
+
+Central jet diameter, $D$
+& [mm] & 4.4 & 5.8 & 8.0 \\[0.2em]
+
+Mean jet exit velocity, $U$
+& [m/s] & 56.8 & 42.4 & 31.5 \\[0.2em]
+
+Exit strain rate, $U/D$
+& [s$^{-1}$] & 12,900 & 7300 & 4300 \\[0.2em]
+
+Exit Reynolds number, $Re_D$
+& [--] & 15,000 & 15,000 & 15,000 \\[0.2em]
+
+Mean flame length, $L_f$
+& [mm] & 710 & 930 & 1060 \\
+
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 \subsection{Radiation Model}
 \label{sec:lesresults:comput:rad}
 
-Information about radiation model
+In \cref{sec:lesmodels:combust}, the RFPV approach~\cite{ihme2008} was selected for the turbulent combustion model to account for radiative losses. Radiation is modeled with a gray gas approach, where the absorption coefficients for \ce{CO2}, \ce{H2O}, \ce{CH4}, and \ce{CO} are obtained from Barlow \etal~\cite{barlow2001}. Since soot radiation is included in addition to gas-phase radiation, the corresponding absorption coefficients are taken from Hubbard and Tien~\cite{hubbard1978}.
 
 
 \subsection{Chemical Mechanisms}
 \label{sec:lesresults:comput:chem}
 
-Discussion on Narayanaswamy et al., Pepiot et al., and Wang et al. (KM2) chemical mechanisms.
+The databases of solutions to the steady flamelet equations with radiative losses are computed with FlameMaster, a solver for 0D combustion and 1D laminar flame calculations~\cite{flamemaster}. Seven databases were generated to account for different combinations of chemical mechanisms, soot subfilter PDFs, and subfilter transport models. Five of the databases utilize the chemical mechanism of Blanquart \etal~\cite{blanquart2009588}, which encompasses the high temperature combustion of fuels from methane to iso-octane and places emphasis on the formation of soot precursors up to cyclopenta[cd]pyrene (\ce{C18H10}). The mechanism of Narayanaswamy \etal~\cite{narayanaswamy2010} is incorporated into the base mechanism to model the high-temperature oxidation of aromatic species. In total, there are 158 species and 1804 reactions. The remaining two databases use the chemical mechanism of Wang \etal~\cite{wang2013}, which contains the high temperature kinetics of \ce{C1-C4} hydrocarbons fuels and accounts for the formation and growth of PAH up to coronene (\ce{C24H12}). This mechanism, referred to as KM2, includes 202 species and 1351 reactions.
+
+These databases are parameterized by $\tf{Z}$, $\tf{Z_V}$, $\tf{C}$, and $\tf{H}$, as previously discussed in \cref{sec:lesmodels:presumedpdf}, and have a resolution of 100 divisions for each parameter. Additionally, each database accounts for soot variables in addition to the quantities required for the RFPV approach~\cite{ihme2008}, so the LES code has been parallelized using a hybrid method of one MPI process per cluster node and sixteen OpenMP threads per node to accommodate the large memory requirement of each database.
