@@ -5,35 +5,35 @@ Grid filtered LES is achieved through NGA, a finite difference code for low-Mach
 
 The computational domain of each flame consists of a structured grid with $192 \times 96 \times 32$ points in the streamwise, radial, and circumferential directions, respectively. This corresponds to a domain with lengths $200D$ in the streamwise direction and $60D$ in the radial direction, where the grid is stretched for both. The boundary conditions for each domain require an additional simulation of a three-dimensional, fully developed turbulent periodic pipe flow with an average streamwise velocity that matches the corresponding mean jet exit velocity for each case of \cref{tab:subfilter:leszussp:ehn}. The data from these simulations become the inflow conditions within the burner, which is modeled with a single grid point in the streamwise direction. The secondary air coflow is prescribed as a bulk flow of magnitude 1.1 m/s. The downstream exit of the domain is modeled with a convective outflow that globally conserves mass~\cite{akselvoll1996}, and the outer edge of the domain in the radial direction is modeled with a slip wall.
 
-Each computational domain is decomposed with 128 processors. The specific computational cost of each LES varies with the combination of models used. The latter and other simulation details are presented in \cref{tab:lesresults:comput:details}. NEED TO FINISH THIS TABLE.
+Each computational domain is decomposed with 128 processors. The specific computational cost of each LES is between 2.07 $\mu s/s$ and 8.31 $\mu s/s$ and varies with the combination of models used. For each LES, statistics were collected over a period in the range 277 ms to 1216 ms, with an average of 605 ms. The total computational cost of each simulation ranged from approximately 86,000 cpu-hours to 235,000 cpu-hours, for a cumulative total of 1.8 million cpu-hours over all simulations. %The latter and other simulation details are presented in \cref{tab:lesresults:comput:details}. NEED TO FINISH THIS TABLE.
 
-\begin{table}[htbp]
-\centering
-\caption[LES Computational Details]{LES Computational Details}
-\label{tab:lesresults:comput:details}
-\begin{tabular}{p{0.35\textwidth} p{0.1\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}}
-\toprule
-\textbf{Flame} & & \bm{$1/\tau|_{H}$} & \bm{$1/\tau|_{M}$} & \bm{$1/\tau|_{L}$} \\
-\midrule
+%% \begin{table}[htbp]
+%% \centering
+%% \caption[LES Computational Details]{LES Computational Details}
+%% \label{tab:lesresults:comput:details}
+%% \begin{tabular}{p{0.35\textwidth} p{0.1\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}}
+%% \toprule
+%% \textbf{Flame} & & \bm{$1/\tau|_{H}$} & \bm{$1/\tau|_{M}$} & \bm{$1/\tau|_{L}$} \\
+%% \midrule
 
-Central jet diameter, $D$
-& [mm] & 4.4 & 5.8 & 8.0 \\[0.2em]
+%% Central jet diameter, $D$
+%% & [mm] & 4.4 & 5.8 & 8.0 \\[0.2em]
 
-Mean jet exit velocity, $U$
-& [m/s] & 56.8 & 42.4 & 31.5 \\[0.2em]
+%% Mean jet exit velocity, $U$
+%% & [m/s] & 56.8 & 42.4 & 31.5 \\[0.2em]
 
-Exit strain rate, $U/D$
-& [s$^{-1}$] & 12,900 & 7300 & 4300 \\[0.2em]
+%% Exit strain rate, $U/D$
+%% & [s$^{-1}$] & 12,900 & 7300 & 4300 \\[0.2em]
 
-Exit Reynolds number, $Re_D$
-& [--] & 15,000 & 15,000 & 15,000 \\[0.2em]
+%% Exit Reynolds number, $Re_D$
+%% & [--] & 15,000 & 15,000 & 15,000 \\[0.2em]
 
-Mean flame length, $L_f$
-& [mm] & 710 & 930 & 1060 \\
+%% Mean flame length, $L_f$
+%% & [mm] & 710 & 930 & 1060 \\
 
-\bottomrule
-\end{tabular}
-\end{table}
+%% \bottomrule
+%% \end{tabular}
+%% \end{table}
 
 
 \subsection{Radiation Model}
