@@ -1,4 +1,25 @@
 \section{Trends With Global Strain Rate}
 \label{sec:lesresults:strain}
 
+LES with the $Z$-activated soot subfilter PDF and the strain-sensitive transport approach have also been performed for flames $1/\tau|_H$ and $1/\tau|_L$ from \cref{tab:subfilter:leszussp:ehn}. In \cref{fig:lesresults:strain:allflameslecomparison}, these are compared to LES that model all gas-phase species with equal effective diffusivities. It can be observed that the choice of transport model does not significantly impact the predictions of the flame temperature, even as the exit strain rate is varied. The gas-phase species that participate in the main heat-releasing reactions, such as \ce{CO} or \ce{CO2}, have fast chemical production rates compared to the rates of local mixing. They are not identified as strain-sensitive according to \cref{eq:transport:ssta:framework:ssp}, so they are modeled with unity effective Lewis numbers in the strain-sensitive transport approach. As a result, the corresponding profiles closely follow those of the LES with unity effective Lewis numbers. Both transport models closely match the flame temperatures from the experimental data, 
+          
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{ch-lesresults/figures/combined-Tfv-S-ZASSP-Le_comparison}
+  \caption[Centerline \texorpdfstring{$\langle T \rangle$}{<T>} \& \texorpdfstring{$\langle f_V \rangle$}{<fV>} from LES of Flames \texorpdfstring{$1/\tau|_H$}{1/t|H}, \texorpdfstring{$1/\tau|_M$}{1/t|M}, and \texorpdfstring{$1/\tau|_L$}{1/t|L} with Various Transport Approaches]{\textit{Left to right} - Time-averaged flame temperatures and soot volume fractions from LES of jet flames $1/\tau|_H$, $1/\tau|_M$, and $1/\tau|_L$, respectively. Circles indicate experimental data, solid lines are LES with unity effective Lewis numbers for gas-phase species, and dashed lines are LES with the strain-sensitive transport approach. Colors of profiles are the same as in \cref{fig:lesresults:ssta:f2lecomparison}. Note that the soot volume fraction profiles from LES have been premultiplied by a factor of 10 for visibility.}
+  \label{fig:lesresults:strain:allflameslecomparison}
+\end{figure}
+
+basically i want to say that for the soot volume fraction, the expeirmental data shows a sensitivity to the global strain rate (can potentially cite a paper here qamar, etc.). the proposed model shows an improvement over the existing model - figure out the factor of increase of the maximum volume fraction for all flames - it appears that the increase is more pronounced at lower scalar dissipation rate. at high dissipation rate, perhaps the local mixing is too fast to adequately support PAH-based growth modes, explaining the small difference between the proposed and unity Le LES. However, the lowest strain rate flame experiences the biggest difference between the two models - this is because PAH based growth modes 
+
+In \cref{fig:lesresults:strain:allflameslecomparison}, the LES with the aforementioned models clearly predict larger soot volume fractions for each flame when compared to the LES with unity effective Lewis numbers for all gas-phase species. Overall, however, the amount of soot is still underpredicted when compared to the experimental values for each flame. 
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{ch-lesresults/figures/combined-dfvdt-S-ZASSP-Le_comparison}
+  \caption[Centerline \texorpdfstring{$\langle df_V/dt \rangle$}{<dfV/dt>} from LES of Flames \texorpdfstring{$1/\tau|_H$}{1/t|H}, \texorpdfstring{$1/\tau|_M$}{1/t|M}, and \texorpdfstring{$1/\tau|_L$}{1/t|L} with Various Transport Approaches]{\textit{Left to right} - Time-averaged soot volume fraction source terms from LES of jet flames $1/\tau|_H$, $1/\tau|_M$, and $1/\tau|_L$, respectively. Solid lines are LES with unity effective Lewis numbers for gas-phase species and dashed lines are LES with the strain-sensitive transport approach. Colors of profiles are the same as in \cref{fig:lesresults:ssta:radialdfvdtf2lecomparison}.}
+  \label{fig:lesresults:strain:allflamesdfvdt}
+\end{figure}
+
 Comparison of Adelaide flames 1, 2, and 3 to show $f_V$ decreases as the global strain rate is increased. Use EHN, Stanford, ZASSP, and $\check{Le}_i(\zeta_i)$.

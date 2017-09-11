@@ -25,7 +25,7 @@
 %% \title{Soot Modeling in Large Eddy Simulation of Turbulent Nonpremixed Combustion}
 \title{Large Eddy Simulation Subfilter Modeling of Soot-Chemistry-Turbulence Interactions}
 
-\submitted{September 2017}  % degree conferral date (January, April, June, September, or November)
+\submitted{November 2017}  % degree conferral date (January, April, June, September, or November)
 \copyrightyear{2017}  % year in which the copyright is secured by publication of the dissertation.
 \author{Jeffry Kimura Lew}
 \adviser{Professor Michael E. Mueller}  %replace with the full name of your adviser
@@ -76,6 +76,7 @@
 
 %%% For figures
 \usepackage{graphicx}
+\usepackage{float}
 %\usepackage{subfig,rotate}
 
 %%% for comments
@@ -199,8 +200,11 @@
   % Modified script G in Presumed PDF section of Ch. 2
   \newcommand{\mg}[0]{\mc{G}^{\diamond}}
 
-  % P(Z) in Ch.
+  % P(Z)
   \newcommand{\pz}[0]{\tf{P}(Z)}
+
+  % Le_k(zeta_k)
+  \newcommand{\lezeta}[0]{\check{Le}_k(\zeta_k)}
 
   % For et al.
   \newcommand{\etal}[0]{\textit{et al.}}
