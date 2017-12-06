@@ -1,18 +1,27 @@
 \section{Recommendations for Future Work}
 \label{sec:conclusion:future}
 
-Discuss future work.
-
-
 \subsection{Z-Activated Soot Subfilter PDF}
 \label{sec:conclusion:future:zassp}
 
-Future work for ZASSP.
+The $Z$-activated soot subfilter PDF was developed in \cref{sec:subfilter:zassp} to address the deficiencies of the $Z$-uniform soot subfilter PDF in capturing the connection between subfilter soot-turbulence interactions and combustion chemistry. Its form remains a double delta distribution to account for the non-sooting and sooting modes within an LES filter width. However, rather than decorrelate the soot scalars from the thermochemical variables, a dependence of the soot scalars on the mixture fraction was introduced in order to eliminate the presence of soot in below-stoichiometric regions from the sooting mode. Additionally, the sooting mode of the $Z$-activated soot subfilter PDF presumed a uniform distribution for rich values of mixture fraction. This model was shown to be more appropriate at later times in a turbulent nonpremixed jet when turbulent mixing had distributed soot throughout mixture fraction space~\cite{attili2014}. However, as demonstrated in \cref{fig:subfilter:leszussp:ysvsz}, the bulk of soot tends to be reside in narrower intervals of mixture fraction at the earlier stages of soot evolution. An improvement to the $Z$-activated soot subfilter PDF can be made by concentrating the sooting mode near the location of peak soot inception in mixture fraction space at these earlier stages. This new soot subfilter PDF might use a beta distribution for the sooting mode and could have a form similar to:
+\begin{equation}\label{eq:conclusion:future:zassp:dd}
+  P(\mc{M}_j|Z) = \omega\delta(\mc{M}_j) + (1 - \omega)\delta(\mc{M}_j - \mc{M}_j^*(Z)).
+\end{equation}
+
+The $Z$-activated soot subfilter PDF can be further improved by adjusting the location of activation for the sooting mode in mixture fraction space. In \cref{sec:subfilter:zassp}, the sooting mode was activated at the stoichiometric mixture fraction to prevent non-physical oxidation from occurring in lean regions. Using this model, the LES from \cref{fig:lesresults:zassp:ctrlineleseval} revealed minimal increases in the predictions of the centerline soot volume fraction over those from the LES with the $Z$-uniform soot subfilter PDF. These results can be explained by examining \cref{fig:subfilter:leszussp:kvsz}, where it becomes clear that activating the sooting mode at the stoichiometric mixture fraction results in a rate of oxidation that is only slightly less than the global maximum.
+
+The plots of soot mass fraction from DNS in \cref{fig:subfilter:leszussp:ysvsz} show that there is zero soot in fuel-lean regions of the flame. However, the plots also reveal that there is still no soot at slightly rich values of mixture fraction. To capture this physics, the activation of the sooting mode needs to occur at the right boundary of this narrow fuel-rich region containing no soot. This location is determined by finding the smallest mixture fraction where soot growth begins to dominate over oxidation, which corresponds to the intersection between the profiles for surface growth and oxidation in \cref{fig:conclusion:future:zassp:shiftedz}. It is evident that rich-shifting the location of activation leads to a decrease in the rate of oxidation by more than an order of magnitude. With this improved model for soot evolution, preliminary LES have demonstrated a large increase in the time-averaged, centerline soot volume fraction.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.43\linewidth]{ch-conclusion/figures/flamelet_sootcoeffs_EHN_chi01_le1}
+  \caption[Shifted Activation of ZASSP]{Timescales of oxidation, surface growth, and combined nucleation and condensation from nonpremixed flamelet solutions for a fuel mixture of \ce{C2H4}/\ce{H2}/\ce{N2} [40/41/19 by volume]. The vertical gray dashed line indicates the location of the stoichiometric mixture fraction ($Z_{st} = 0.0834$). The vertical black dashed line marks the location of the intersection between the profiles for oxidation and surface growth ($Z = 0.133$). All other lines are the same as in \cref{fig:subfilter:leszussp:kvsz}.}
+  \label{fig:conclusion:future:zassp:shiftedz}
+\end{figure}
 
 
 \subsection{Strain-Sensitive Transport Approach}
 \label{sec:conclusion:future:ssta}
 
 Future work for SSTA.
-
-%% Future work should include options in the template for a masters thesis or an undergraduate senior thesis. It should also support running headings in the headers using the `headings' pagestyle.  The print mode and proquest mode included in the template might also be candidates to include in the class itself.
