@@ -3,19 +3,29 @@
 
 The evolution of soot in turbulent nonpremixed combustion is heavily influenced by small-scale interactions between particles, combustion chemistry, and turbulence. Turbulence has been 
 
-Main points:
-Previous research has shown that turbulence constrains soot and its precursors to very thin, spatially intermittent regions. Experimental and computational evidence that support the previous statement. Point of work is to incorporate dependence of soot subfilter PDF on thermochemical variables - i.e. soot does not exist in lean regions, only in rich regions.
+TURBULENCE CAUSES INTERMITTENCY
+The effects of turbulence are known to be far-reaching. Turbulence is a highly efficient mechanism for mixing, and has a strong influence on how species are transported throughout the system. As mentioned previously, PAH are governed by relatively slow chemistry and are formed only in regions of low scalar dissipation rate~\cite{}. Due to turbulence, these regions are on the order of the Kolmogorov scale or smaller, and are highly spatially intermittent. Soot, which rely on PAH for nucleation and condensation, possess even slower kinetics and hardly diffuse at all due to their very large Schmidt number. As a result, soot is confined to very thin structures that are elongated by turbulent eddies and exhibit a high degree of spatial intermittency. This property has been observed in experiments~\cite{} and in Direct Numerical Simulation (DNS)~\cite{}.
 
-Previously proposed by Mueller and Pitsch that PAH had much slower formation chemistry compared to main heat-releasing chemistry (thermochemical variables). They proposed the timescales of soot scalars and the latter are disparate enough to be independent. They noted this timescale separation argument could be violated during soot oxidation, when there are enhance interactions between soot and the major gas-phase chemistry, and during surface growth near the flame. Also, this argument only accounts for the timescales of PAH and soot formation, but soot, turbulence, and chemistry interact even after the nucleation of soot particles from PAH dimers.
+Turbulence also dictates the mixture fraction field.
 
-The previous theory assumes soot is uniformly distributed in mixture fraction space, but this is not correct for non-smoking flames (DNS). Soot is oxidized before reaching lean mixtures. The local mixture fraction also guides the mode of evolution of soot. The previous theory will overpredict the rate of oxidation with a lesser impact on the rate of surface growth. The subfilter PDF must exclude the presence of soot at lean mixtures by incorporating the local ratios of fuel and oxidizer.
+SOOT EXISTS ONLY AT RICH MIXTURE FRACTIONS
+Soot has also been observed to exist only in rich regions of mixture fraction~\cite{DNS,experiment}. In a DNS study by Lignell \etal~\cite{lignell}, it was noted that if the center of curvature of the flame was in the fuel stream, the flame motion was towards the fuel and soot concentrations peaked. However, recent DNS studies by Bisetti \etal~\cite{bisetti} and Mueller and Pitsch~\cite{mueller2012} noted that soot was equally likely to travel towards lean or rich mixtures. If soot traveled to leaner regions, it experienced a brief period of surface growth followed by complete oxidation. Conversely, soot that traveled to richer regions tended to linger and experience growth by condensation as well as coagulation.
 
-From Michael:
-Turbulence affects soot:
-1) Confines to very thin structures that are stretched into long filaments
-2) PAH formed only in regions of low scalar dissipation rate due to its relatively slow chemistry
+A previous model for these small-scale interactions between soot, combustion, and turbulence had proposed that the variables for soot should be independent of the variables for thermochemical quantities such as the mixture fraction. The reasoning behind this assumption was based on the timescale separation between the slow chemistry of soot and its precursors and the much faster heat-releasing chemistry. However, as was previously noted, the evolution of soot is intimately linked to the local mixture fraction, which is a thermochemical quantity. In \cref{ch:subfilter}, a model is developed that incorporates the relationship between soot and combustion chemistry while still accounting for the intermittent nature of soot. The impact of such a model on the source terms for oxidation and surface growth is assessed \textit{a priori} through an existing DNS database.
 
-RANS studies with semi-empirical soot models, PAH-based inception models
-LES studies with semi-empirical, acetylene-based inception model
-DNS studies
-Goal of work
+%% Main points:
+%% Previous research has shown that turbulence constrains soot and its precursors to very thin, spatially intermittent regions. Experimental and computational evidence that support the previous statement. Point of work is to incorporate dependence of soot subfilter PDF on thermochemical variables - i.e. soot does not exist in lean regions, only in rich regions.
+
+%% Previously proposed by Mueller and Pitsch that PAH had much slower formation chemistry compared to main heat-releasing chemistry (thermochemical variables). They proposed the timescales of soot scalars and the latter are disparate enough to be independent. They noted this timescale separation argument could be violated during soot oxidation, when there are enhanced interactions between soot and the major gas-phase chemistry, and during surface growth near the flame. Also, this argument only accounts for the timescales of PAH and soot formation, but soot, turbulence, and chemistry interact even after the nucleation of soot particles from PAH dimers.
+
+%% The previous theory assumes soot is uniformly distributed in mixture fraction space, but this is not correct for non-smoking flames (DNS). Soot is oxidized before reaching lean mixtures. The local mixture fraction also guides the mode of evolution of soot. The previous theory will overpredict the rate of oxidation with a lesser impact on the rate of surface growth. The subfilter PDF must exclude the presence of soot at lean mixtures by incorporating the local ratios of fuel and oxidizer.
+
+%% From Michael:
+%% Turbulence affects soot:
+%% 1) Confines to very thin structures that are stretched into long filaments
+%% 2) PAH formed only in regions of low scalar dissipation rate due to its relatively slow chemistry
+
+%% RANS studies with semi-empirical soot models, PAH-based inception models
+%% LES studies with semi-empirical, acetylene-based inception model
+%% DNS studies
+%% Goal of work
