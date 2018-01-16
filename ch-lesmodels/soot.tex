@@ -27,7 +27,7 @@ For convenience, a total velocity is defined that combines the convective and th
 
 Although the Method of Moments has a relatively smaller computational cost, it faces the problem of closure. Evaluation of the source term $\dot{M}_{x,y}$ in \cref{eq:lesmodels:soot:ndf:momtransport} depends on moments that are not directly solved for, requiring further modeling. Two moment methods that provide closure are the Method of Moments with Interpolative Closure (MOMIC)~\cite{frenklach2002,frenklach1987,frenklach1994} and the Direct Quadrature Method of Moments (DQMOM)~\cite{marchisio2005}.
 
-In MOMIC, explicit transport equations are solved for a set of moments. Source term closure is then achieved by polynomial interpolation of the logarithm of these known moments. For a bivariate parameterization of the NDF with volume and surface area, the interpolation is given by
+In MOMIC, explicit transport equations are solved for a set of moments. Source term closure is achieved by polynomial interpolation of the logarithm of these known moments. For a bivariate parameterization of the NDF with volume and surface area, the interpolation is given by
 \begin{equation}\label{eq:lesmodels:soot:ndf:momic}
   M_{x,y}^{\text{MOMIC}} = \exp\left( \sum\limits_{r=0}^{R} \sum\limits_{k=0}^{r} a_{r,k}x^k y^{r-k} \right),
 \end{equation}
