@@ -189,7 +189,8 @@
   \newcommand{\ftrder}[1]{\pder[\mean{\rho}#1]{t} + \pder[\mean{\rho}\tf{u}_j#1]{x_j}}
 
   % Divergence of subfilter flux
-  \newcommand{\dsff}[2][]{\pder[]{x_j}\left( \mean{\rho}\tf{u}_j#1 - \mean{\rho}#2 \right)}
+  % \newcommand{\dsff}[2][]{\pder[]{x_j}\left( \mean{\rho}\tf{u}_j#1 - \mean{\rho}#2 \right)}
+  \newcommand{\dsff}[2][]{\pder[]{x_j}\left( \mean{\rho}#2 - \mean{\rho}\tf{u}_j#1 \right)}
 
   % Density-weighted LES filtered diffusion term
   \newcommand{\fdt}[2][]{\pder[]{x_j}\left( \mean{\rho}\tf{D}_{#1}\pder[#2]{x_j} \right)}
