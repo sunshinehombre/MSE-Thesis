@@ -13,9 +13,9 @@ and uses cutoff length and time scales to separate unresolved small-scale quanti
 
 When these filtering operations are applied to the conservation equations for mass, momentum, and energy or to scalar transport equations, subfilter contributions to the chemical source term, turbulent transport, and molecular transport terms arise. For instance, the density-weighted filtered transport equation for a scalar $Q$ is given by
 \begin{equation}\label{eq:lesmodels:presumedpdf:scalar}
-  \ftrder{\tf{Q}} = \pder[]{x_j}\left( \mean{\rho}\tf{D_Q\pder[Q]{x_j}} \right) - \dsff[\tf{Q}]{\tf{u_j Q}} + \fst[m]{Q},
+  \ftrder{\tf{Q}} = -\dsff[\tf{Q}]{\tf{u_j Q}} + \pder[]{x_j}\left( \mean{\rho}\tf{D_Q\pder[Q]{x_j}} \right) + \fst[m]{Q},
 \end{equation}
-where the first term on the right-hand side contains subfilter contributions to molecular diffusion fluxes, the second term is known as the subfilter scalar flux and contains the effects of unresolved turbulent transport, and the third term is the filtered source term. These unclosed terms represent small-scale interactions between soot, turbulence, and combustion chemistry. In particular, the filtered source term is usually closed with a density-weighted joint PDF $\tf{P}$ of the thermochemical and soot variables. Density-weighted filtered functions of these quantities are obtained from a convolution of the equation of state with $\tf{P}$:
+where the first term on the right-hand side is known as the subfilter scalar flux and contains the effects of unresolved turbulent transport, the second term contains subfilter contributions to molecular diffusion fluxes, and the third term is the filtered source term. These unclosed terms represent small-scale interactions between soot, turbulence, and combustion chemistry. In particular, the filtered source term is usually closed with a density-weighted joint PDF $\tf{P}$ of the thermochemical and soot variables. Density-weighted filtered functions of these quantities are obtained from a convolution of the equation of state with $\tf{P}$:
 \begin{equation}\label{eq:lesmodels:presumedpdf:filteredfuncs}
   \tf{\phi}(\xi,\mc{M}_j) = \iint \mc{J}(\xi,\mc{M}_j)\tf{P}(\xi,\mc{M}_j) d\xi d\mc{M}_j,
 \end{equation}
