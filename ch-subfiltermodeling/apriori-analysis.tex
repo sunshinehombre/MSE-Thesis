@@ -74,12 +74,14 @@ The second quantity that needs to be estimated is the subfilter PDF for mixture 
   \fst[M]{1,0}^{ox} = \tf{k}_{ox}(Z(x_j)) \cdot \mean{M_{0,1}(x_j)},
   % \fst[M]{1,0}^{ox} = \{ \tf{k_{ox}(x_j)|Z(x_j)} \} \cdot \mean{M_{0,1}(x_j)}.
 \end{equation}
-where $k_{ox}(Z(x_j))$ describes the field where the value of the oxidation coefficient at $x_j$ is given by \cref{eq:subfilter:dns:condkox} based on $Z(x_j)$. $\tf{k}_{ox}(Z(x_j))$ is the result of Favre filtering the latter.
+where $k_{ox}(Z(x_j))$ provides the value of the oxidation coefficient at $x_j$ through \cref{eq:subfilter:dns:condkox}. $\tf{k}_{ox}(Z(x_j))$ is the result of Favre filtering the field given by the latter.
+
+%describes the field where the value of the oxidation coefficient at $x_j$ is given by \cref{eq:subfilter:dns:condkox} based on $Z(x_j)$. $\tf{k}_{ox}(Z(x_j))$ is the result of Favre filtering the latter.
 %Use of the $Z$-uniform soot subfilter PDF implies that the soot scalars are assumed to be independent of the thermochemical variables. This property is evident in \cref{eq:subfilter:dns:mzusspwithoutpz}, where the two components are distinctly separated.
 
 The source term using $\pz$ will be referred to as the ``ZUSSP with $\pz$'' case, and is given by
 \begin{equation}\label{eq:subfilter:dns:mzusspwithpz}
-  \fst[M]{1,0}^{ox} = \int\limits_0^1 \{ k_{ox}(x_j)|Z(x_j) \}\tf{P}(Z; \tf{Z}(x_j),\tf{Z_V}(x_j)) dZ \cdot \mean{M_{0,1}(x_j)},
+  \fst[M]{1,0}^{ox} = \int\limits_0^1 \{ k_{ox}(x_j)|Z(x_j) \}\tf{P}(Z; \tf{Z}(x_j),\tf{Z_V}(x_j)) dZ \cdot \mean{M_{0,1}(x_j)}.
   % \fst[M]{1,0}^{ox} = \int\limits_0^1 \{ k_{ox}|Z \}\tf{P}(Z; \tf{Z}(x_j),\tf{Z_V}(x_j)) dZ \cdot \mean{M_{0,1}(x_j)},
 \end{equation}
 %where $\{ k_{ox}|Z \}$ is the density-weighted, conditionally averaged oxidation coefficient as given in \cref{eq:subfilter:dns:condkox}.
