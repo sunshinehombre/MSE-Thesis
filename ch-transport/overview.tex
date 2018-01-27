@@ -41,7 +41,8 @@ Pitsch and Peters~\cite{pitsch1998} previously derived a set of one-dimensional 
 \begin{equation}\label{eq:transport:overview:lei:flamelety}
   \rho\pder[Y_k]{\tau} = \frac{\rho\chi}{2 Le_k}\sder[Y_k]{Z} + \dot{m}_k + \frac{\rho\chi}{2 Le_k}\frac{Y_k}{W}\sder[W]{Z} + V_k^{DD},
 \end{equation}
-where the species Lewis numbers $Le_k = \lambda/c_p\rho D_k$ represent the ratio of thermal to mass diffusivities, $D_k = (1 - Y_k)/\sum\limits_{k \neq l} (X_k/D_{k,l})$ is the mixture-averaged diffusivity for species $k$, and $\chi = 2D_Z(\partial Z/\partial x_j)^2$ is the scalar dissipation rate. The diffusion velocities are expressed by the Curtiss-Hirschfelder approximation~\cite{curtiss1949} with a velocity correction to enforce mass conservation. These remaining molecular transport correction terms are lumped into $V_k^{DD}$ and are outlined in Pitsch and Peters~\cite{pitsch1998}. Similarly, the one-dimensional, adiabatic temperature equation is given by
+where the species Lewis numbers $Le_k = \lambda/c_p\rho D_k$ represent the ratio of thermal to mass diffusivities.
+%, $D_k = (1 - Y_k)/\sum\limits_{k \neq l} (X_k/D_{k,l})$ is the mixture-averaged diffusivity for species $k$, and $\chi = 2D_Z(\partial Z/\partial x_j)^2$ is the scalar dissipation rate. The diffusion velocities are expressed by the Curtiss-Hirschfelder approximation~\cite{curtiss1949} with a velocity correction to enforce mass conservation. These remaining molecular transport correction terms are lumped into $V_k^{DD}$ and are outlined in Pitsch and Peters~\cite{pitsch1998}. Similarly, the one-dimensional, adiabatic temperature equation is given by
 \begin{equation}\label{eq:transport:overview:lei:flamelett}
   \rho c_p \pder[T]{\tau} = \frac{\rho c_p \chi}{2}\sder[T]{Z} + \frac{\rho\chi}{2}\pder[c_p]{Z}\pder[T]{Z} - \sum\limits_{k} h_k\dot{m}_k + \sum\limits_{k} \frac{\rho\chi}{2 Le_k}\left( \pder[Y_k]{Z} + \frac{Y_k}{W}\pder[W]{Z} \right)(c_p - c_{p,k})\pder[T]{Z},
 \end{equation}

@@ -76,7 +76,7 @@ where $Y_k$ is the mass fraction of species $k$, $V_{k,j}$ is the diffusion velo
 \begin{equation}\label{eq:lesmodels:combust:flamelet:curtisshirschfelder}
   V_{k,j} = -\frac{1}{X_k}D_k\pder[X_k]{x_j} + \sum\limits_{k} \frac{Y_k}{X_k}D_k\pder[X_k]{x_j},
 \end{equation}
-where $X_k$ is the mole fraction of species $k$, $D_k = (1 - Y_k)/\sum\limits_{k \neq l} (X_k/D_{k,l})$ is the mixture-averaged diffusivity for species $k$, and the second term on the right-hand side is a velocity correction to enforce mass conservation. By assuming constant unity Lewis numbers, \cref{eq:lesmodels:combust:flamelet:curtisshirschfelder} is simplified to Fick's law:
+where $X_k$ is the mole fraction of species $k$, $D_k = (1 - Y_k)/\sum\limits_{k \neq l} (X_k/D_{k,l})$ is the mixture-averaged diffusivity for species $k$, and the second term on the right-hand side is a correction velocity that enforces the conservation of mass. By assuming constant unity Lewis numbers, \cref{eq:lesmodels:combust:flamelet:curtisshirschfelder} is simplified to Fick's law:
 \begin{equation}\label{eq:lesmodels:combust:flamelet:fick}
   V_{k,j} = -\frac{1}{Y_k}D\pder[Y_k]{x_j},
 \end{equation}
