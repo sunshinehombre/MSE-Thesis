@@ -114,7 +114,7 @@ The validity of presuming the beta distribution is more easily elucidated in the
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-ox-ZUSSP-r3D-32}
   \end{subfigure}
-  \caption[Error Associated with $\pz = \beta(Z;\tf{Z},\tf{Z_V})$ for \fst[M]{1,0}$^{ox}$]{Filtered moment source term for oxidation [m$^3$/(s$\cdot$m$^3$)] at $t = 5$ ms evaluated with \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz,eq:subfilter:dns:mdns} for a normalized filter width of $\Delta/h = 32$. In the first three plots, the red lines represent a one-to-one correspondence and the sample standard deviation is indicated at the top left corner. In the fourth, bottom right plot, the solid red line is the ``DNS'' case, the cyan dashed line is the ``ZUSSP without $\pz$'' case, and the blue dashed line is the ``ZUSSP with $\pz$'' case.}
+  \caption[Error Associated with $\pz = \beta(Z;\tf{Z},\tf{Z_V})$ for $\mean{\dot{M}}_{1,0}^{ox}$]{Filtered moment source term for oxidation [m$^3$/(s$\cdot$m$^3$)] at $t = 5$ ms evaluated with \cref{eq:subfilter:dns:mzusspwithoutpz,eq:subfilter:dns:mzusspwithpz,eq:subfilter:dns:mdns} for a normalized filter width of $\Delta/h = 32$. In the first three plots, the red lines represent a one-to-one correspondence and the sample standard deviation is indicated at the top left corner. In the fourth, bottom right plot, the solid red line is the ``DNS'' case, the cyan dashed line is the ``ZUSSP without $\pz$'' case, and the blue dashed line is the ``ZUSSP with $\pz$'' case.}
   \label{fig:subfilter:dns:erroronbetaox}
 \end{figure}
 
@@ -140,7 +140,7 @@ This case is plotted against the source term from DNS in \cref{fig:subfilter:dns
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-ox-ZASSP-r3D-32}
   \end{subfigure}
-  \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for \fst[M]{1,0}$^{ox}$]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. In the right-hand plot, the solid red line is the ``DNS'' case, the blue dashed line is the ``ZUSSP with $\pz$'' case, and the magenta dashed line is the ``ZASSP with $\pz$'' case.}
+  \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for $\mean{\dot{M}}_{1,0}^{ox}$]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. In the right-hand plot, the solid red line is the ``DNS'' case, the blue dashed line is the ``ZUSSP with $\pz$'' case, and the magenta dashed line is the ``ZASSP with $\pz$'' case.}
   \label{fig:subfilter:dns:zasspcomparisonox}
 \end{figure}
 
@@ -198,7 +198,7 @@ The subfilter PDF for mixture fraction $\pz$ needs to be modeled as well, and th
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-sg-ZUSSP-r3D-32}
   \end{subfigure}
-  \caption[Error Associated with $\pz = \beta(Z;\tf{Z},\tf{Z_V})$ for \fst[M]{1,0}$^{sg}$]{Filtered moment source term for surface growth [m$^3$/(s$\cdot$m$^3$)] at the same conditions of \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:erroronbetaox}.}
+  \caption[Error Associated with $\pz = \beta(Z;\tf{Z},\tf{Z_V})$ for $\mean{\dot{M}}_{1,0}^{sg}$]{Filtered moment source term for surface growth [m$^3$/(s$\cdot$m$^3$)] at the same conditions of \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:erroronbetaox}.}
   \label{fig:subfilter:dns:erroronbetasg}
 \end{figure}
 
@@ -219,7 +219,7 @@ The filtered moment source term for surface growth using the $Z$-Activated Soot 
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-sg-ZASSP-r3D-32}
   \end{subfigure}
-  \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for \fst[M]{1,0}$^{sg}$]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}.}
+  \caption[Comparison of ZASSP with $\pz$ to DNS \& ZUSSP with $\pz$ for $\mean{\dot{M}}_{1,0}^{sg}$]{Comparison of the ``ZASSP with $\pz$'' case to the ``DNS'' and ``ZUSSP with $\pz$'' cases for the same conditions as in \cref{fig:subfilter:dns:erroronbetaox}. All symbols and lines are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}.}
   \label{fig:subfilter:dns:zasspcomparisonsg}
 \end{figure}
 
@@ -301,7 +301,7 @@ The filtered moment source term for oxidation evaluated with \cref{eq:subfilter:
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-ox-ZASSP-r3D-128}
   \end{subfigure}
-  \caption[\fst[M]{1,0}$^{ox}$ Using ZASSP with $\pz$ for Various $\Delta/h$]{\textit{Top} - Comparison of the ``ZASSP with $\pz$'' case to the ``ZUSSP with $\pz$'' case at $t = 5$ ms for the oxidation source term. \textit{Bottom} - CDFs of filtered moment source terms for oxidation using the ``ZASSP with $\pz$'' case. Lines for the bottom plots are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}. \textit{Left to right} - Normalized filter widths of $\Delta/h = 4$, 32, and 128, respectively.}
+  \caption[$\mean{\dot{M}}_{1,0}^{ox}$ Using ZASSP with $\pz$ for Various $\Delta/h$]{\textit{Top} - Comparison of the ``ZASSP with $\pz$'' case to the ``ZUSSP with $\pz$'' case at $t = 5$ ms for the oxidation source term. \textit{Bottom} - CDFs of filtered moment source terms for oxidation using the ``ZASSP with $\pz$'' case. Lines for the bottom plots are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}. \textit{Left to right} - Normalized filter widths of $\Delta/h = 4$, 32, and 128, respectively.}
   \label{fig:subfilter:dns:moxfwidth}
 \end{figure}
 
@@ -344,6 +344,6 @@ The filtered moment source term for surface growth evaluated with the analogous 
     \centering
     \includegraphics[width=\linewidth]{ch-subfiltermodeling/figures/linear-cdf-sg-ZASSP-r3D-128}
   \end{subfigure}
-  \caption[\fst[M]{1,0}$^{sg}$ Using ZASSP with $\pz$ for Various $\Delta/h$]{\textit{Top} - Comparison of the ``ZASSP with $\pz$'' case to the ``ZUSSP with $\pz$'' case at $t = 5$ ms for the surface growth source term. \textit{Bottom} - CDFs of filtered moment source terms for surface growth using the ``ZASSP with $\pz$'' case. Lines for the bottom plots are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}. \textit{Left to right} - Normalized filter widths of $\Delta/h = 4$, 32, and 128, respectively.}
+  \caption[$\mean{\dot{M}}_{1,0}^{sg}$ Using ZASSP with $\pz$ for Various $\Delta/h$]{\textit{Top} - Comparison of the ``ZASSP with $\pz$'' case to the ``ZUSSP with $\pz$'' case at $t = 5$ ms for the surface growth source term. \textit{Bottom} - CDFs of filtered moment source terms for surface growth using the ``ZASSP with $\pz$'' case. Lines for the bottom plots are analogous to those in \cref{fig:subfilter:dns:zasspcomparisonox}. \textit{Left to right} - Normalized filter widths of $\Delta/h = 4$, 32, and 128, respectively.}
   \label{fig:subfilter:dns:msgfwidth}
 \end{figure}
